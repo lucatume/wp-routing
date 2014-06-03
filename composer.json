@@ -1,0 +1,33 @@
+{
+    "name": "lucatume/wp-wrappers",
+    "type": "library",
+    "description": "WordPress wrappers to streamline development of themes and plugins.",
+    "keywords": ["wordpress"],
+    "homepage": "http://github.com/lucatume/wp-wrappers",
+    "license": "MIT",
+    "authors": [{
+        "name": "theAverageDev (Luca Tumedei)",
+        "email": "luca@theaveragedev.com",
+        "homepage": "http://theaveragedev.com",
+        "role": "Developer"
+    }],
+    "require": {
+        "php": ">=5.3.0",
+        "lucatume/tdd-helpers": "dev-master",
+        "illuminate/cache": "4.3.*@dev",
+        "illuminate/support": "4.3.*@dev",
+        "illuminate/cookie": "4.3.*@dev",
+        "illuminate/encryption": "4.3.*@dev",
+        "illuminate/session": "4.3.*@dev",
+        "illuminate/http": "4.3.*@dev"
+    },
+    "require-dev": {
+        "codeception/codeception": "*",
+        "phpspec/phpspec": "2.0.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "tad\\": "src/"
+        }
+    }
+}
