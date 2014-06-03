@@ -12,6 +12,7 @@ use \Symfony\Component\HttpFoundation\Request as SRequest;
 class Request
 {
     private static $instance = null;
+    private static $globals = null;
     
     public static function __callStatic($name, $arguments)
     {
@@ -26,8 +27,26 @@ class Request
         $className = '\Illuminate\Http\Request';
         throw new \BadMethodCallException("Method $name is not a $className method.", 1);
     }
+    public static function query($key = null, $default = null)
+    {
+        $vars = self::$globals->wp('query_vars');
+        if (!$vars) {
+            return $default;
+        }
+        if (is_array($vars) and isset($vars[$key])) {
+            return $vars[$key];
+        }
+        if (!$key) {
+            return $vars;
+        }
+        return $default;
+    }
     public static function _setInstance($instance = null)
     {
         self::$instance = $instance;
+    }
+    public static function _setGlobals($globals = null)
+    {
+        self::$globals = $globals;
     }
 }
