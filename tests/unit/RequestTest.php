@@ -8,25 +8,20 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->sut = new Request();
+        Request::_setInstance(null);
     }
-
-    protected function tearDown()
-    {
-    }
-
     public function testItShouldBeInstantiatable()
     {
         $this->assertInstanceOf('\tad\wrappers\Illuminate\Http\Request', $this->sut);
     }
-
-    public function testItShouldAllowAccessingAnyIlluminateHttpRequestMethod()
+    public function testItWillCallInstanceMethodsEachTimeAStaticMethodIsCalled()
     {
-        foreach (get_class_methods('\Illuminate\Http\Request') as $method) {
-                $this->assertTrue(method_exists($this->sut, $method));
-            }    
-    }
-    public function testItShouldAllowInitializingAnInstanceUsingInitStaticMethod()
-    {
-        $this->assertInstanceOf('\Illuminate\Http\Request', Request::init());
+        $className = '\Illuminate\Http\Request';
+        $instance = $this->getMock($className, array('some'));
+        $instance->expects($this->once())
+            ->method('some')
+            ->with('arg');
+        Request::_setInstance($instance);
+        Request::some('arg');
     }
 }
