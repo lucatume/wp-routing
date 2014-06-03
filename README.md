@@ -49,4 +49,10 @@ to this
             );
 
 ## Route path arguments
-To allow for a more flexible route arguments handling the [<code>Illuminate\Http</code> package](https://github.com/illuminate/http) is pulled in along with other library requirements; this allows using the classes there defined. Some of those classes are wrapped to allow some degree of static access to them.
+To allow for a more flexible route arguments handling the [<code>Illuminate\Http</code> package](https://github.com/illuminate/http) is pulled in along with other library requirements; this allows using the classes there defined. Some of those classes are wrapped to allow some degree of static access to them. Among those wrapped classes is <code>Illuminate\Http\Request</code>; no argument will be passed to callback functions when using the <code>tad\wrapper\WP_Router\Route</code> class and route arguments will have to be fetched insided the callback function like
+
+    Route::get('hello/{name}', function ()
+    {
+        $name = Request::init()->segment(2);
+        echo "Hello $name";
+    })->where('name', '\w+?');
