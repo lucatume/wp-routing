@@ -12,7 +12,7 @@
         "role": "Developer"
     }],
     "require": {
-        "php": ">=5.3.0",
+        "php": ">=5.4.0",
         "lucatume/tdd-helpers": "dev-master",
         "illuminate/cache": "4.3.*@dev",
         "illuminate/support": "4.3.*@dev",
