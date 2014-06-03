@@ -1,9 +1,9 @@
 {
-    "name": "lucatume/wp-wrappers",
+    "name": "lucatume/wp-routing",
     "type": "library",
-    "description": "WordPress wrappers to streamline development of themes and plugins.",
+    "description": "An attempt at Laravel-like routing in WordPress",
     "keywords": ["wordpress"],
-    "homepage": "http://github.com/lucatume/wp-wrappers",
+    "homepage": "http://github.com/lucatume/wp-routing",
     "license": "MIT",
     "authors": [{
         "name": "theAverageDev (Luca Tumedei)",
