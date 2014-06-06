@@ -241,6 +241,13 @@ class Route
         return $this;
     }
     
+    public function withDescription($description) {
+        if (!is_string($description)){
+            throw new \BadMethodCallException("Description must be a string", 1);
+        }
+        $this->args['description'] = $description;
+    }
+
     /**
      * Allows specifying which templates to use.
      *
