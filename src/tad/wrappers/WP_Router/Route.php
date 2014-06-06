@@ -391,7 +391,7 @@ class Route
      *     page_callback
      *     access_callback
      * 
-     * all will receive all of the query vars as arguments in the same order they appear in the path.
+     * all will not receive any argument.
      */
     public function __destruct()
     {
