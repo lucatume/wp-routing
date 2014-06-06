@@ -339,10 +339,10 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
     {
         $this->f->expects($this->at(0))
             ->method('do_action')
-            ->with('route_before_adding_routes');
+            ->with('route_before_adding_routes', $this->isType('array'));
         $this->f->expects($this->at(1))
             ->method('do_action')
-            ->with('route_after_adding_routes');
+            ->with('route_after_adding_routes', $this->isType('array'));
         Route::generateRoutes($this->router, $this->f);
     }
 }
