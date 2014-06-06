@@ -28,11 +28,16 @@ class Route
         }
         $this->f = $f;
     }
-    public static function generateRoutes(\WP_router $router)
+    public static function generateRoutes(\WP_router $router, FunctionsAdapter $f = null)
     {
+        if (is_null($f)) {
+            $f = new Functions();
+        }
+        $f->do_action('route_before_adding_routes', self::$routes);
         foreach (self::$routes as $route => $args) {
             $router->add_route($route, $args);
         }
+        $f->do_action('route_after_adding_routes', self::$routes);
     }
     public static function set($key, $value = null)
     {

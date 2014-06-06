@@ -6,7 +6,7 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
     protected $sut = null;
     public function setUp()
     {
-        $this->f = $this->getMockFunctions(array('add_action'));
+        $this->f = $this->getMockFunctions(array('add_action', 'do_action'));
         $this->router = $this->getMock('\WP_Router', array('add_route'));
         
         // reset the Route
@@ -334,5 +334,15 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
         $this->sut->_get($path, $callback)->withTemplate(array('/some/folder/templates/single.php', '/some/folder/templates/page'));
         $this->sut->__destruct();
         Route::generateRoutes($this->router);
+    }
+    public function testItShouldCallActionsWhenAddingRoutes()
+    {
+        $this->f->expects($this->at(0))
+            ->method('do_action')
+            ->with('route_before_adding_routes');
+        $this->f->expects($this->at(1))
+            ->method('do_action')
+            ->with('route_after_adding_routes');
+        Route::generateRoutes($this->router, $this->f);
     }
 }
