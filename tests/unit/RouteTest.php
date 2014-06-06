@@ -368,4 +368,10 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
         $this->sut->__destruct();
         Route::generateRoutes($this->router);
     }
+    public function testItShoulgThrowIfUsingWithMethodWithKeysThatAreMethodAccessible()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+        $this->sut->_get('some/path', function(){ echo 'some callback';})
+            ->with('path', 'hacky/path');
+    }
 }

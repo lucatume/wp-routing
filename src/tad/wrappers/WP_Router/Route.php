@@ -254,6 +254,10 @@ class Route
         if (!is_string($key)){
             throw new \BadMethodCallException("Key must be a string", 1);
         }
+        $methodAccessibleArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
+        if (in_array($key, $methodAccessibleArgs)) {
+            throw new \InvalidArgumentException("Argument $key should be set with its dedicated method.", 2);
+        }
         $this->args[$key] = $value;
         return $this;
     }
