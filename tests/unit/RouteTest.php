@@ -345,7 +345,7 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
             ->with('route_after_adding_routes', $this->isType('array'));
         Route::generateRoutes($this->router, $this->f);
     }
-    public function testItShouldAllowAddingAnOptionalDescriptionToTheRoute()
+    public function testItShouldAllowAddingAnOptionalInformationToTheRoute()
     {
         $path = 'hello';
         $id = 'hello';
@@ -364,7 +364,7 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
         $this->sut->hook();
         $this->sut->_get($path, $callback)
             ->withTemplate(array('/some/folder/templates/single.php', '/some/folder/templates/page'))
-            ->withDescription('The hello route');
+            ->with('description', 'The hello route');
         $this->sut->__destruct();
         Route::generateRoutes($this->router);
     }

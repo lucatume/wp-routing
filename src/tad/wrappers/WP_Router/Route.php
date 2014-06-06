@@ -240,12 +240,22 @@ class Route
         $this->$id = $id;
         return $this;
     }
-    
-    public function withDescription($description) {
-        if (!is_string($description)){
-            throw new \BadMethodCallException("Description must be a string", 1);
+    /**
+     * Allows adding additional information to a route.
+     * 
+     * Additional arguments will be ignored by WP Router.
+     *
+     * @param  string $key   The key for the information to add.
+     * @param  mixed $value  The value for the information to add.
+     *
+     * @return Route         The calling instance.
+     */
+    public function with($key, $value) {
+        if (!is_string($key)){
+            throw new \BadMethodCallException("Key must be a string", 1);
         }
-        $this->args['description'] = $description;
+        $this->args[$key] = $value;
+        return $this;
     }
 
     /**
