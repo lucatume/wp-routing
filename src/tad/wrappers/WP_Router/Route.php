@@ -425,6 +425,8 @@ class Route
         
         // take care of initial caret and ending dollar sign
         $this->args['path'] = '^' . rtrim(ltrim($this->args['path'], '^/'), '$/') . '$';
+        // set the permalink to something like /path
+        $this->args['permalink']  = '/' . rtrim(ltrim($this->args['path'], '^/'), '$/');
     }
     
     /**

@@ -14,6 +14,7 @@
     "require": {
         "php": ">=5.4.0",
         "lucatume/tdd-helpers": "dev-master",
+        "lucatume/wp-utils": "dev-master",
         "lucatume/wp-wrappers": "dev-master",
         "illuminate/cache": "4.3.*@dev",
         "illuminate/support": "4.3.*@dev",
