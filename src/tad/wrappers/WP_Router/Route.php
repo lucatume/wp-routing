@@ -28,9 +28,10 @@ class Route
         }
         $this->f = $f;
     }
+    
     /**
      * The static method that will actually call WP Router to generate the routes.
-     * 
+     *
      * This is the method that will be called by the 'wp_router_generate_routes' action.
      *
      * @param  WP_router $router A WP Router instance.
@@ -46,6 +47,7 @@ class Route
         $f->do_action('route_before_adding_routes', self::$routes);
         foreach (self::$routes as $routeId => $args) {
             $router->add_route($routeId, $args);
+            
             // class hook to allow for extending classes to act on the route
             self::actOnRoute($routeId, $args);
         }
@@ -53,19 +55,24 @@ class Route
     }
     public static function set($key, $value = null)
     {
-        self::${$key} = $value;
+        self::$
+        {
+            $key
+        } = $value;
     }
+    
     /**
      * A class-level hook to allow for extending classes to act on each route.
      *
      * @param  string $routeId The route id
      * @param  Array  $args    The args associated with the route.
-        *
+     *
      * @return void
      */
-    public static function actOnRoute($routeId, Array $args){
+    private static function actOnRoute($routeId, Array $args)
+    {
     }
-
+    
     /**
      * Adds a pattern to be used in the routes without having to specify it every time.
      *
@@ -259,9 +266,10 @@ class Route
         $this->$id = $id;
         return $this;
     }
+    
     /**
      * Allows adding additional information to a route.
-     * 
+     *
      * Additional arguments will be ignored by WP Router.
      *
      * @param  string $key   The key for the information to add.
@@ -269,8 +277,9 @@ class Route
      *
      * @return Route         The calling instance.
      */
-    public function with($key, $value) {
-        if (!is_string($key)){
+    public function with($key, $value)
+    {
+        if (!is_string($key)) {
             throw new \BadMethodCallException("Key must be a string", 1);
         }
         $methodAccessibleArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
@@ -280,7 +289,7 @@ class Route
         $this->args[$key] = $value;
         return $this;
     }
-
+    
     /**
      * Allows specifying which templates to use.
      *
@@ -315,6 +324,7 @@ class Route
         $this->args['template'] = $templates;
         return $this;
     }
+    
     /**
      * Allows setting the title that will be returned in functions like the_title.
      *
@@ -416,14 +426,15 @@ class Route
         // take care of initial caret and ending dollar sign
         $this->args['path'] = '^' . rtrim(ltrim($this->args['path'], '^/'), '$/') . '$';
     }
+    
     /**
      * The method will close the fluent chain effectively registering the route.
      * Please note that
-     * 
+     *
      *     title_callback
      *     page_callback
      *     access_callback
-     * 
+     *
      * all will not receive any argument.
      */
     public function __destruct()
