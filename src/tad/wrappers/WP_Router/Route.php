@@ -55,7 +55,17 @@ class Route
     {
         self::${$key} = $value;
     }
-    
+    /**
+     * A class-level hook to allow for extending classes to act on each route.
+     *
+     * @param  string $routeId The route id
+     * @param  Array  $args    The args associated with the route.
+        *
+     * @return void
+     */
+    public static function actOnRoute($routeId, Array $args){
+    }
+
     /**
      * Adds a pattern to be used in the routes without having to specify it every time.
      *
