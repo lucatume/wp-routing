@@ -28,23 +28,32 @@ class Route
         }
         $this->f = $f;
     }
+    /**
+     * The static method that will actually call WP Router to generate the routes.
+     * 
+     * This is the method that will be called by the 'wp_router_generate_routes' action.
+     *
+     * @param  WP_router $router A WP Router instance.
+     * @param  \tad\interfaces\FunctionsAdapter    $f      An optionally injected functions adapter.
+     *
+     * @return void
+     */
     public static function generateRoutes(\WP_router $router, FunctionsAdapter $f = null)
     {
         if (is_null($f)) {
             $f = new Functions();
         }
         $f->do_action('route_before_adding_routes', self::$routes);
-        foreach (self::$routes as $route => $args) {
-            $router->add_route($route, $args);
+        foreach (self::$routes as $routeId => $args) {
+            $router->add_route($routeId, $args);
+            // class hook to allow for extending classes to act on the route
+            self::actOnRoute($routeId, $args);
         }
         $f->do_action('route_after_adding_routes', self::$routes);
     }
     public static function set($key, $value = null)
     {
-        self::$
-        {
-            $key
-        } = $value;
+        self::${$key} = $value;
     }
     
     /**
