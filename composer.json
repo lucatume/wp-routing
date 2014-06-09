@@ -24,7 +24,7 @@
         "illuminate/http": "4.3.*@dev"
     },
     "require-dev": {
-        "codeception/codeception": "*",
+        "codeception/codeception": "1.8.*@dev",
         "phpspec/phpspec": "2.0.*@dev",
         "mockery/mockery": "dev-master"
     },
