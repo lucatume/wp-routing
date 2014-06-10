@@ -50,6 +50,12 @@ class PersistableRoute extends Route
         self::$option->setVar($routeId, ['title' => $args['title'], 'permalink' => $args['permalink']]);
     }
 
+    protected function replacePatterns($patterns){
+        parent::replacePatterns($patterns);
+        // set the permalink to something like /path
+        $this->args['permalink'] = '/' . rtrim(ltrim($this->args['path'], '^/'), '$/');
+    }
+
     public function shouldBePersisted()
     {
         $this->args['shouldBePersisted'] = true;

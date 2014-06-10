@@ -3,10 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="664ebdf3-85db-4b5c-94db-a8dd597da8be" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tad/wrappers/WP_Router/PersistableRoute.php" afterPath="$PROJECT_DIR$/src/tad/wrappers/WP_Router/PersistableRoute.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/unit/PersistableRouteTest.php" afterPath="$PROJECT_DIR$/tests/unit/PersistableRouteTest.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/tad/wrappers/WP_Router/Route.php" afterPath="$PROJECT_DIR$/src/tad/wrappers/WP_Router/Route.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tests/_bootstrap.php" afterPath="$PROJECT_DIR$/tests/_bootstrap.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/composer.json" afterPath="$PROJECT_DIR$/composer.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wp-routing.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="PersistableRouteTest.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/unit/PersistableRouteTest.php">
+      <file leaf-file-name="PersistableRoute.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/tad/wrappers/WP_Router/PersistableRoute.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.77553856" vertical-offset="684" max-vertical-offset="2340">
-              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.80055594" vertical-offset="684" max-vertical-offset="2448">
+              <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -53,9 +51,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
+        <option value="$PROJECT_DIR$/tests/unit/PersistableRouteTest.php" />
+        <option value="$PROJECT_DIR$/tests/unit/RouteTest.php" />
         <option value="$PROJECT_DIR$/src/tad/wrappers/WP_Router/Route.php" />
         <option value="$PROJECT_DIR$/src/tad/wrappers/WP_Router/PersistableRoute.php" />
-        <option value="$PROJECT_DIR$/tests/unit/PersistableRouteTest.php" />
       </list>
     </option>
   </component>
@@ -253,32 +252,32 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tests/unit/RouteTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3502432" vertical-offset="0" max-vertical-offset="13788">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.8255733" vertical-offset="12168" max-vertical-offset="13788">
+          <caret line="371" column="0" selection-start-line="371" selection-start-column="0" selection-end-line="371" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tad/wrappers/WP_Router/Route.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.50034744" vertical-offset="0" max-vertical-offset="16488">
-          <caret line="21" column="4" selection-start-line="20" selection-start-column="4" selection-end-line="20" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tad/wrappers/WP_Router/PersistableRoute.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.94996524" vertical-offset="325" max-vertical-offset="2232">
-          <caret line="49" column="38" selection-start-line="47" selection-start-column="38" selection-end-line="47" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.7004864" vertical-offset="14832" max-vertical-offset="16416">
+          <caret line="441" column="0" selection-start-line="440" selection-start-column="0" selection-end-line="440" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/unit/PersistableRouteTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.77553856" vertical-offset="684" max-vertical-offset="2340">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7505212" vertical-offset="720" max-vertical-offset="2340">
+          <caret line="53" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/tad/wrappers/WP_Router/PersistableRoute.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.80055594" vertical-offset="684" max-vertical-offset="2448">
+          <caret line="53" column="40" selection-start-line="53" selection-start-column="40" selection-end-line="53" selection-end-column="40" />
           <folding />
         </state>
       </provider>
