@@ -47,7 +47,7 @@ class PersistableRoute extends Route
         }
 
         // persist the route using the id as the key and storing the title and the permalink
-        self::$option->setVar($routeId, ['title' => $args['title'], 'permalink' => $args['permalink']]);
+        self::$option->setValue($routeId, ['title' => $args['title'], 'permalink' => $args['permalink']]);
     }
 
     protected function replacePatterns($patterns){
