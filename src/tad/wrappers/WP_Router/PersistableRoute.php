@@ -52,8 +52,9 @@ class PersistableRoute extends Route
 
     protected function replacePatterns($patterns){
         parent::replacePatterns($patterns);
-        // set the permalink to something like /path
-        $this->args['permalink'] = '/' . rtrim(ltrim($this->args['path'], '^/'), '$/');
+        // set the permalink to something like path
+        // do not use the '/'
+        $this->args['permalink'] = rtrim(ltrim($this->args['path'], '^/'), '$/');
     }
 
     public function shouldBePersisted()

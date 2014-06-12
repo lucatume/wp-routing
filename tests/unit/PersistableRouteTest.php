@@ -12,7 +12,7 @@ class PersistableRouteTest extends \tad\test\cases\TadLibTestCase
     {
         $this->f = $this->getMockFunctions(array('add_action', 'do_action'));
         $this->router = $this->getMock('\WP_Router', array('add_route'));
-        $this->option = $this->getMock('\tad\wrappers\Option', array('setVar'));
+        $this->option = $this->getMock('\tad\wrappers\Option', array('setValue'));
 
         // reset the PersistableRoute
         PersistableRoute::set('routes', array());
@@ -36,7 +36,7 @@ class PersistableRouteTest extends \tad\test\cases\TadLibTestCase
             echo 'Hello there';
         };
 
-        $args = array('path' => '^hello$', 'page_callback' => array('GET' => $callback), 'shouldBePersisted' => true, 'template' => false, 'permalink' => '/hello');
+        $args = array('path' => '^hello$', 'page_callback' => array('GET' => $callback), 'shouldBePersisted' => true, 'template' => false, 'permalink' => 'hello');
         $this->router->expects($this->once())->method('add_route')->with($id, $args);
         $this->sut->hook();
         $this->sut->_get($path, $callback)->shouldBePersisted();
@@ -52,8 +52,8 @@ class PersistableRouteTest extends \tad\test\cases\TadLibTestCase
             echo 'Hello there';
         };
         $this->option->expects($this->once())
-            ->method('setVar')
-            ->with($id, array('title' => 'Hello route', 'permalink' => '/hello'));
+            ->method('setValue')
+            ->with($id, array('title' => 'Hello route', 'permalink' => 'hello'));
         $this->sut->hook();
         $this->sut->_get($path, $callback)->shouldBePersisted()->withTitle('Hello route');
         $this->sut->__destruct();
