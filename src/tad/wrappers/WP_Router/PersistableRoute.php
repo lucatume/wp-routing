@@ -54,6 +54,9 @@ class PersistableRoute extends Route
         parent::replacePatterns($patterns);
         // set the permalink to something like path
         // do not use the '/'
+        if(!isset($this->args['path'])){
+            return;
+        }
         $this->args['permalink'] = rtrim(ltrim($this->args['path'], '^/'), '$/');
     }
 
