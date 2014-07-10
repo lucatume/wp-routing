@@ -433,6 +433,9 @@ class Route
 
     protected function replacePatterns($patterns)
     {
+        if (!isset($this->args['path'])) {
+            return;
+        }
         foreach ($patterns as $key => $pattern) {
 
             // convert the pattern in the path
