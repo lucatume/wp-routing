@@ -1,15 +1,9 @@
 <?php
 
-namespace tad\wrappers\Illuminate\Http;
-
-
-use \Illuminate\Http\Request as IRequest;
-use \Symfony\Component\HttpFoundation\Request as SRequest;
-
 /**
- * A wrapping class around the original one to bootstrap request handling
+ * A wrapping class around the original
  */
-class Request
+class WP_Routing_Request
 {
     private static $instance = null;
     private static $globals = null;

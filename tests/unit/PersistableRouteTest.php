@@ -14,7 +14,7 @@ class PersistableRouteTest extends \tad\test\cases\TadLibTestCase
         $this->router = $this->getMock('\WP_Router', array('add_route'));
         $this->option = $this->getMock('\tad\wrappers\Option', array('setValue'));
 
-        // reset the PersistableRoute
+        // reset the WP_Routing_PersistableRoute
         PersistableRoute::set('routes', array());
         PersistableRoute::set('patterns', array());
         PersistableRoute::set('option', $this->option);

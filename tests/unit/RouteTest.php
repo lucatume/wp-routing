@@ -9,7 +9,7 @@ class RouteTest extends \tad\test\cases\TadLibTestCase
         $this->f = $this->getMockFunctions(array('add_action', 'do_action'));
         $this->router = $this->getMock('\WP_Router', array('add_route'));
         
-        // reset the Route
+        // reset the WP_Routing_Route
         Route::set('routes', array());
         Route::set('patterns', array());
         $this->sut = new Route($this->f);
