@@ -16,8 +16,7 @@
         "php": ">=5.2.0",
         "lucatume/tdd-helpers": "~2.0",
         "lucatume/wp-utils": "~2.0",
-        "lucatume/wp-wrappers": "~2.0",
-
+        "lucatume/wp-wrappers": "~2.0"
     },
     "require-dev": {
         "codeception/codeception": "1.8.*@dev"
