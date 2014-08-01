@@ -42,24 +42,22 @@ class WP_Routing_Route
         $f->do_action('route_before_adding_routes', self::$routes);
         foreach (self::$routes as $routeId => $args) {
             $router->add_route($routeId, $args);
-
-            // class hook to allow for extending classes to act on the route
-            self::actOnRoute($routeId, $args);
+            /**
+             * Allow for extending classes to act on the route and circumvent PHP 5.2 lack
+             * of late static binding.
+             * Extending classes should:
+             *  - register as classes extending the WP_Routing_Route one using the tad_Static::setClassExtending method
+             *  - implement the `actOnRoute` method
+             */
+            $class = tad_Static::getClassExtending(__CLASS__);
+            if ($class and $class != __CLASS__) {
+                if (method_exists($class, 'actOnRoute')) {
+                    call_user_func(array($class, 'actOnRoute'), $routeId, $args);
+                }
+            }
         }
         // action hook for plugins and themes to act on the route
         $f->do_action('route_after_adding_routes', self::$routes);
-    }
-
-    /**
-     * A class-level hook to allow for extending classes to act on each route.
-     *
-     * @param  string $routeId The route id
-     * @param  Array $args The args associated with the route.
-     *
-     * @return void
-     */
-    protected static function actOnRoute($routeId, Array $args)
-    {
     }
 
     public static function set($key, $value = null)
@@ -99,7 +97,7 @@ class WP_Routing_Route
         if (!is_string($filterSlug) or !preg_match('/[\w]+/', $filterSlug)) {
             throw new BadMethodCallException("Filter slug mus be a strin with letters, numbers and underscores alone", 1);
         }
-	    // could be a function name or an array specifying an object/class and a method
+        // could be a function name or an array specifying an object/class and a method
         if (!is_callable($filterCallback)) {
             throw new BadMethodCallException("Filter callback must be a callable", 2);
         }
@@ -145,6 +143,18 @@ class WP_Routing_Route
     {
         $this->f->add_action('wp_router_generate_routes', array(__CLASS__, 'generateRoutes'));
         return $this;
+    }
+
+    /**
+     * A class-level hook to allow for extending classes to act on each route.
+     *
+     * @param  string $routeId The route id
+     * @param  Array $args The args associated with the route.
+     *
+     * @return void
+     */
+    protected static function actOnRoute($routeId, Array $args)
+    {
     }
 
     /**
@@ -408,12 +418,11 @@ class WP_Routing_Route
      */
     public function __destruct()
     {
-
-        // replace the registered patterns
-        $this->replacePatterns(self::$patterns);
+        // merge patterns specified for all routes with patterns specific to the route
+        $patterns = array_merge(self::$patterns, $this->routePatterns);
 
         // replace the patterns local to the route
-        $this->replacePatterns($this->routePatterns);
+        $this->replacePatterns($patterns);
         self::$routes[$this->id] = $this->args;
     }
 
