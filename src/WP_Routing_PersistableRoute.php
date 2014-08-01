@@ -7,14 +7,15 @@
  */
 class WP_Routing_PersistableRoute extends WP_Routing_Route
 {
-    /**
-     * @var null|tad_Option An instance of the options wrapper class.
-     */
-    protected static $option = null;
+    const PARENT_CLASS = 'WP_Routing_Route';
     /**
      * All the meta information about all the routes will be stored to an array like value in the database. This is the `option_name`.
      */
     const OPTION_ID = '__wp_routing_routes_meta';
+    /**
+     * @var null|tad_Option An instance of the options wrapper class.
+     */
+    protected static $option = null;
 
     /**
      * @param tad_FunctionsAdapterInterface $f
@@ -22,11 +23,17 @@ class WP_Routing_PersistableRoute extends WP_Routing_Route
      */
     public function __construct(tad_FunctionsAdapterInterface $f = null, tad_Option $option = null)
     {
+        $this->maybeInitStaticHelper();
         if (is_null($option)) {
             $option = tad_Option::on(self::OPTION_ID);
         }
         $this->option = $option;
         parent::__construct($f);
+    }
+
+    public static function set($key, $value = null)
+    {
+        self::${$key} = $value;
     }
 
     /**
@@ -35,7 +42,7 @@ class WP_Routing_PersistableRoute extends WP_Routing_Route
      * @param string $routeId
      * @param array $args
      */
-    protected  static function actOnRoute($routeId, Array $args)
+    protected static function actOnRoute($routeId, Array $args)
     {
         // if the route should not be persisted return
         if (!isset($args['shouldBePersisted']) or !$args['shouldBePersisted']) {
@@ -57,23 +64,6 @@ class WP_Routing_PersistableRoute extends WP_Routing_Route
     }
 
     /**
-     * Sets the `permalink` key for the route starting from the path.
-     *
-     * A `path` specified in the route like `/^hello$/` will set the route permalink to `hello`.
-     *
-     * @param $patterns
-     */
-    protected function replacePatterns($patterns){
-        parent::replacePatterns($patterns);
-        // set the permalink to something like path
-        // do not use the '/'
-        if(!isset($this->args['path'])){
-            return;
-        }
-        $this->args['permalink'] = rtrim(ltrim($this->args['path'], '/^'), '$/');
-    }
-
-    /**
      * Sugar method to set the `shouldBePersisted` meta for a route.
      *
      * @return WP_Routing_PersistableRoute $this
@@ -82,5 +72,31 @@ class WP_Routing_PersistableRoute extends WP_Routing_Route
     {
         $this->args['shouldBePersisted'] = true;
         return $this;
+    }
+
+    /**
+     * Sets the `permalink` key for the route starting from the path.
+     *
+     * A `path` specified in the route like `/^hello$/` will set the route permalink to `hello`.
+     *
+     * @param $patterns
+     */
+    protected function replacePatterns($patterns)
+    {
+        // call WP_Routing_Route::replacePatterns
+        parent::replacePatterns($patterns);
+        // set the permalink to something like path
+        // do not use the '/'
+        if (!isset($this->args['path'])) {
+            return;
+        }
+        $this->args['permalink'] = rtrim(ltrim($this->args['path'], '/^'), '$/');
+    }
+
+    protected function maybeInitStaticHelper()
+    {
+        if (is_null(tad_Static::getClassExtending(self::PARENT_CLASS))) {
+            tad_Static::setClassExtending(self::PARENT_CLASS, __CLASS__);
+        }
     }
 }

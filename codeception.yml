@@ -16,3 +16,9 @@ modules:
             user: ''
             password: ''
             dump: tests/_data/dump.sql
+extensions:
+  enabled:
+    - Codeception\Extension\RemoteDebug
+  config:
+    Codeception\Extension\RemoteDebug:
+      sessionName: XDEBUG_CODECEPTION
