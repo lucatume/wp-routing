@@ -451,4 +451,7 @@ class WP_Routing_Route
         // take care of initial caret and ending dollar sign
         $this->args['path'] = '^' . rtrim(ltrim($this->args['path'], '^/'), '$/') . '$';
     }
+    public function setFunctionsAdapter(tad_FunctionsAdapterInterface $functionsAdapter = null){
+        $this->f = $functionsAdapter ? $functionsAdapter : new tad_FunctionsAdapter();
+    }
 }
