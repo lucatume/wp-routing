@@ -87,9 +87,9 @@ class WPRouting_PersistableRoute extends WPRouting_Route
      *
      * @return WPRouting_PersistableRoute $this
      */
-    public function shouldBePersisted()
+    public function shouldBePersisted($shouldBePersisted = null)
     {
-        $this->args['shouldBePersisted'] = true;
+        $this->args['shouldBePersisted'] = is_bool($shouldBePersisted) ? $shouldBePersisted : true;
         return $this;
     }
     
@@ -119,5 +119,9 @@ class WPRouting_PersistableRoute extends WPRouting_Route
         if (is_null(tad_Static::getClassExtending(self::PARENT_CLASS))) {
             tad_Static::setClassExtending(self::PARENT_CLASS, __CLASS__);
         }
+    }
+    public function willBePersisted(){
+        $shouldBePersisted = isset($this->args['shouldBePersisted']) && !empty($this->args['shouldBePersisted']);
+        return $shouldBePersisted ? $shouldBePersisted : false;
     }
 }

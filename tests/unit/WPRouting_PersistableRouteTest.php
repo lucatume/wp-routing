@@ -64,4 +64,21 @@ class WP_Routing_PersistableRouteTest extends tad_TestCase
         $this->sut->__destruct();
         WPRouting_PersistableRoute::generateRoutes($this->router);
     }
+        /**
+         * @test
+         * it should allow setting the persistence using the shouldBePersisted method
+         */
+        public function it_should_allow_setting_the_persistence_using_the_shouldBePersisted_method()
+        {
+            $sut = new WPRouting_PersistableRoute();
+            $this->assertFalse($sut->willBePersisted());
+            $sut->shouldBePersisted(false);
+            $this->assertFalse($sut->willBePersisted());
+            $sut->shouldBePersisted();
+            $this->assertTrue($sut->willBePersisted());
+            $sut->shouldBePersisted(false);
+            $this->assertFalse($sut->willBePersisted());
+            $sut->shouldBePersisted(true);
+            $this->assertTrue($sut->willBePersisted());
+        }
 }
