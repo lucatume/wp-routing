@@ -52,7 +52,7 @@ to this
 An extension of the base `WPRouting_Route` class that allows persisting route meta information to the WordPress database.
 
 ### Persisting a route meta information
-The class defines a `shouldBePersisted` method accepting a boolean that will trigger route meta information when set to `true`; by default routes will not be persisted.  
+The class defines a `shouldBePersisted` method accepting a boolean that will trigger route meta information when set to `true`; **by default routes will not be persisted**.  
 At a bare minimum a route must define a title and a path to be eligible for persistence; it's a fluent method to be used like
 
         // file my-routes-plugin.php
