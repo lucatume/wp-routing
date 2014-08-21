@@ -8,13 +8,16 @@
 class WPRouting_PersistableRoute extends WPRouting_Route
 {
     const PARENT_CLASS = 'WPRouting_Route';
-    
     /**
      * All the meta information about all the routes will be stored to an array like value in the database. This is the `option_name`.
      */
     const OPTION_ID = '__wp_routing_routes_meta';
     const ROUTE_PERSISTED_VALUES_FILTER = 'WP_Routing_PersistableRoute_persist_route';
-    
+    /**
+     * @var array An array of route arguments that are either set by internal
+     * methods or require the use of public set methods to be set.
+     */
+    public static $protectedArgs = array('permalink');
     /**
      * @var null|tad_Option An instance of the options wrapper class.
      */
@@ -87,7 +90,7 @@ class WPRouting_PersistableRoute extends WPRouting_Route
     /**
      * Removes WP Router related and the `shouldBePersisted` arguments from the route meta.
      *
-     * @param  array  $args The route meta arguments. 
+     * @param  array $args The route meta arguments.
      *
      * @return array       The route meta arguments minus the WP Router related and the `shouldBePersisted` ones.
      */
@@ -108,6 +111,22 @@ class WPRouting_PersistableRoute extends WPRouting_Route
     }
 
     /**
+     * Allows setting a route additional arguments.
+     *
+     * @param  string $key The key for the argument.
+     * @param  mixed $value The argument value.
+     *
+     * @return WPRouting_PersistableRoute        The calling object instance.
+     */
+    public function with($key, $value)
+    {
+        if (in_array($key, self::$protectedArgs)) {
+            throw new InvalidArgumentException("$key cannot be set using the with method.", 3);
+        }
+        return parent::with($key, $value);
+    }
+
+    /**
      * Sugar method to set the `shouldBePersisted` meta for a route.
      *
      * @return WPRouting_PersistableRoute $this
@@ -121,25 +140,6 @@ class WPRouting_PersistableRoute extends WPRouting_Route
     public function willBePersisted(){
         $shouldBePersisted = isset($this->args['shouldBePersisted']) && !empty($this->args['shouldBePersisted']);
         return $shouldBePersisted ? $shouldBePersisted : false;
-    }
-
-    /**
-     * Allows adding additional information to a route.
-     *
-     * Additional arguments will be ignored by WP Router but might be persisted in the route meta.
-     *
-     * @param  string $key The key for the information to add.
-     * @param  mixed $value The value for the information to add.
-     *
-     * @return WPRouting_Route         The calling instance.
-     */
-    public function with($key, $value)
-    {
-        if (!is_string($key)) {
-            throw new BadMethodCallException("Key must be a string", 1);
-        }
-        $this->args[$key] = $value;
-        return $this;
     }
 
     /**
