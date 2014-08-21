@@ -120,4 +120,8 @@ class WPRouting_PersistableRoute extends WPRouting_Route
             tad_Static::setClassExtending(self::PARENT_CLASS, __CLASS__);
         }
     }
+    public function willBePersisted(){
+        $shouldBePersisted = isset($this->args['shouldBePersisted']) && !empty($this->args['shouldBePersisted']);
+        return $shouldBePersisted ? $shouldBePersisted : false;
+    }
 }
