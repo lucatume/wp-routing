@@ -11,7 +11,9 @@ The library is meant to be used with [Composer](https://getcomposer.org/) in a C
         }
     } 
 
-## Setting routes
+## WPRouting_Route
+
+### Setting routes
 While the inner workings of the wrapper classes will build on WP Router code and hence any example applies the library will wrap the methods required to set up routes in a Laravel-like interface to go from this
 
     // file my-routes-plugin.php
@@ -37,8 +39,6 @@ to this
 
     // file my-routes-plugin.php
 
-    use tad\wrappers\WP_Router\WPRouting_Route;
-
     WPRouting_Route::get('wp_router/{word}', function($word){
             echo "Hello $word";
         })->where('word', '.*?')
@@ -48,11 +48,26 @@ to this
             dirname(__FILE__).DIRECTORY_SEPARATOR.'sample-page.php'
             );
 
-## WPRouting_Route path arguments
-To allow for a more flexible route arguments handling the [<code>Illuminate\Http</code> package](https://github.com/illuminate/http) is pulled in along with other library requirements; this allows using the classes there defined. Some of those classes are wrapped to allow some degree of static access to them. Among those wrapped classes is <code>Illuminate\Http\WP_Routing_Request</code>; no argument will be passed to callback functions when using the <code>tad\wrapper\WP_Router\WPRouting_Route</code> class and route arguments will have to be fetched insided the callback function like
+## WPRouting_PersistableRoute
+An extension of the base `WPRouting_Route` class that allows persisting route meta information to the WordPress database.
 
-    WPRouting_Route::get('hello/{name}', function ()
-    {
-        $name = WP_Routing_Request::init()->segment(2);
-        echo "Hello $name";
-    })->where('name', '\w+?');
+### Persisting a route meta information
+The class defines a `shouldBePersisted` method accepting a boolean that will trigger route meta information when set to `true`; by default routes will not be persisted.  
+At a bare minimum a route must define a title and a path to be eligible for persistence; it's a fluent method to be used like
+
+        // file my-routes-plugin.php
+
+    WPRouting_Route::get('wp_router/{word}', function($word){
+            echo "Hello $word";
+        })->where('word', '.*?')
+          ->withTitle('Wp Router Sample Page')
+          ->withTemplate(array(
+            'sample-page',
+            dirname(__FILE__).DIRECTORY_SEPARATOR.'sample-page.php'
+            )
+          ->shouldBePersisted();
+
+The `shouldBePersisted` method will default to `true` if no value is passed to it and hence 
+
+    ->shouldBePersisted();
+    ->shouldBePersisted(true);
