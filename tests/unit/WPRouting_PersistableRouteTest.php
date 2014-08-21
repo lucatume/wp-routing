@@ -13,18 +13,18 @@ class WP_Routing_PersistableRouteTest extends tad_TestCase
         $this->router = $this->getMock('WP_Router', array('add_route'));
         $this->option = $this->getMock('tad_Option', array('setValue'));
 
-        // reset the WP_Routing_PersistableRoute
-        WP_Routing_PersistableRoute::set('routes', array());
-        WP_Routing_PersistableRoute::set('patterns', array());
-        WP_Routing_PersistableRoute::set('option', $this->option);
+        // reset the WPRouting_PersistableRoute
+        WPRouting_PersistableRoute::set('routes', array());
+        WPRouting_PersistableRoute::set('patterns', array());
+        WPRouting_PersistableRoute::set('option', $this->option);
 
         // set up the subject under test
-        $this->sut = new WP_Routing_PersistableRoute($this->f, $this->option);
+        $this->sut = new WPRouting_PersistableRoute($this->f, $this->option);
     }
 
     public function testItShouldBeInstantiatable()
     {
-        $this->assertInstanceOf('WP_Routing_PersistableRoute', $this->sut);
+        $this->assertInstanceOf('WPRouting_PersistableRoute', $this->sut);
     }
 
     public function testItShouldAllowTriggerRoutePersistenceUsingTheShouldBePersistedMethod()
@@ -40,7 +40,7 @@ class WP_Routing_PersistableRouteTest extends tad_TestCase
         $this->sut->hook();
         $this->sut->_get($path, $callback)->shouldBePersisted();
         $this->sut->__destruct();
-        WP_Routing_PersistableRoute::generateRoutes($this->router);
+        WPRouting_PersistableRoute::generateRoutes($this->router);
     }
 
     public function testItShouldAddRouteMetaToTheWpRouterRoutesMetaOption()
@@ -60,8 +60,8 @@ class WP_Routing_PersistableRouteTest extends tad_TestCase
         $this->sut->_get($path, $callback)
             ->shouldBePersisted()
             ->withTitle('Hello route');
-        // destroy the instance to trigger WP_Routing_Route::replacePatterns
+        // destroy the instance to trigger WPRouting_Route::replacePatterns
         $this->sut->__destruct();
-        WP_Routing_PersistableRoute::generateRoutes($this->router);
+        WPRouting_PersistableRoute::generateRoutes($this->router);
     }
 }

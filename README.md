@@ -37,9 +37,9 @@ to this
 
     // file my-routes-plugin.php
 
-    use tad\wrappers\WP_Router\WP_Routing_Route;
+    use tad\wrappers\WP_Router\WPRouting_Route;
 
-    WP_Routing_Route::get('wp_router/{word}', function($word){
+    WPRouting_Route::get('wp_router/{word}', function($word){
             echo "Hello $word";
         })->where('word', '.*?')
           ->withTitle('Wp Router Sample Page')
@@ -48,10 +48,10 @@ to this
             dirname(__FILE__).DIRECTORY_SEPARATOR.'sample-page.php'
             );
 
-## WP_Routing_Route path arguments
-To allow for a more flexible route arguments handling the [<code>Illuminate\Http</code> package](https://github.com/illuminate/http) is pulled in along with other library requirements; this allows using the classes there defined. Some of those classes are wrapped to allow some degree of static access to them. Among those wrapped classes is <code>Illuminate\Http\WP_Routing_Request</code>; no argument will be passed to callback functions when using the <code>tad\wrapper\WP_Router\WP_Routing_Route</code> class and route arguments will have to be fetched insided the callback function like
+## WPRouting_Route path arguments
+To allow for a more flexible route arguments handling the [<code>Illuminate\Http</code> package](https://github.com/illuminate/http) is pulled in along with other library requirements; this allows using the classes there defined. Some of those classes are wrapped to allow some degree of static access to them. Among those wrapped classes is <code>Illuminate\Http\WP_Routing_Request</code>; no argument will be passed to callback functions when using the <code>tad\wrapper\WP_Router\WPRouting_Route</code> class and route arguments will have to be fetched insided the callback function like
 
-    WP_Routing_Route::get('hello/{name}', function ()
+    WPRouting_Route::get('hello/{name}', function ()
     {
         $name = WP_Routing_Request::init()->segment(2);
         echo "Hello $name";

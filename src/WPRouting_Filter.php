@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Class WP_Routing_Filters
+ * Class WPRouting_Filters
  *
  * Manages the access filters associated to a route.
  *
  */
-class WP_Routing_Filters
+class WPRouting_Filters
 {
     protected $filters;
 

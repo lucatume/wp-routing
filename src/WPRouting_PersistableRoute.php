@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Class WP_Routing_PersistableRoute
+ * Class WPRouting_PersistableRoute
  *
- * An extension of the WP_Routing_Route class to allow meta information about a route to be persisted to the database.
+ * An extension of the WPRouting_Route class to allow meta information about a route to be persisted to the database.
  */
-class WP_Routing_PersistableRoute extends WP_Routing_Route
+class WPRouting_PersistableRoute extends WPRouting_Route
 {
-    const PARENT_CLASS = 'WP_Routing_Route';
+    const PARENT_CLASS = 'WPRouting_Route';
     
     /**
      * All the meta information about all the routes will be stored to an array like value in the database. This is the `option_name`.
@@ -85,7 +85,7 @@ class WP_Routing_PersistableRoute extends WP_Routing_Route
     /**
      * Sugar method to set the `shouldBePersisted` meta for a route.
      *
-     * @return WP_Routing_PersistableRoute $this
+     * @return WPRouting_PersistableRoute $this
      */
     public function shouldBePersisted()
     {
@@ -103,7 +103,7 @@ class WP_Routing_PersistableRoute extends WP_Routing_Route
     protected function replacePatterns($patterns)
     {
         
-        // call WP_Routing_Route::replacePatterns
+        // call WPRouting_Route::replacePatterns
         parent::replacePatterns($patterns);
         
         // set the permalink to something like path

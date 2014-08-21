@@ -4,7 +4,7 @@
  * A wrapper around WP Router method to allow a Laravel-like interface.
  * WP Router plugin by Jonathan Brinley
  */
-class WP_Routing_Route
+class WPRouting_Route
 {
     protected static $routes = array();
     protected static $patterns = array();
@@ -46,7 +46,7 @@ class WP_Routing_Route
              * Allow for extending classes to act on the route and circumvent PHP 5.2 lack
              * of late static binding.
              * Extending classes should:
-             *  - register as classes extending the WP_Routing_Route one using the tad_Static::setClassExtending method
+             *  - register as classes extending the WPRouting_Route one using the tad_Static::setClassExtending method
              *  - implement the `actOnRoute` method
              */
             $class = tad_Static::getClassExtending(__CLASS__);
@@ -109,12 +109,12 @@ class WP_Routing_Route
      *
      * This method offers the convenient static entry point to the class like
      *
-     *     WP_Routing_Route::get('hello', $callback)->...
+     *     WPRouting_Route::get('hello', $callback)->...
      *
      * @param  string $func The method name
      * @param  array $args The method arguments
      *
-     * @return WP_Routing_Route       A new instance of this class
+     * @return WPRouting_Route       A new instance of this class
      */
     public static function __callStatic($func, $args)
     {
@@ -137,7 +137,7 @@ class WP_Routing_Route
     /**
      * Make the route hook into the generate routes action.
      *
-     * @return WP_Routing_Route The calling instance of the class
+     * @return WPRouting_Route The calling instance of the class
      */
     public function hook()
     {
@@ -165,7 +165,7 @@ class WP_Routing_Route
      *
      *     $route->_get(array('admin', function(){echo 'some';});
      *
-     * @return WP_Routing_Route                     The calling instance of this class.
+     * @return WPRouting_Route                     The calling instance of this class.
      */
     public function _get($path, $callbackAndFilters)
     {
@@ -220,7 +220,7 @@ class WP_Routing_Route
             $this->args['access_callback'] = array($method => self::$filters[$routeFilters[0]]);
         } else if (count($routeFilters) > 1) {
             // if there is more than one filter
-            $filters = new WP_Routing_Filters($routeFilters);
+            $filters = new WPRouting_Filters($routeFilters);
             $this->args['access_callback'] = array($method => array($filters , 'callFilters'));
         }
         return $this;
@@ -234,7 +234,7 @@ class WP_Routing_Route
      *
      *     $route->_post(array('admin', function(){echo 'some';});
      *
-     * @return WP_Routing_Route                     The calling instance of this class.
+     * @return WPRouting_Route                     The calling instance of this class.
      */
     public function _post($path, $callbackAndFilters)
     {
@@ -249,7 +249,7 @@ class WP_Routing_Route
      *
      *     $route->_put(array('admin', function(){echo 'some';});
      *
-     * @return WP_Routing_Route                     The calling instance of this class.
+     * @return WPRouting_Route                     The calling instance of this class.
      */
     public function _put($path, $callbackAndFilters)
     {
@@ -264,7 +264,7 @@ class WP_Routing_Route
      *
      *     $route->_delete(array('admin', function(){echo 'some';});
      *
-     * @return WP_Routing_Route                     The calling instance of this class.
+     * @return WPRouting_Route                     The calling instance of this class.
      */
     public function _delete($path, $callbackAndFilters)
     {
@@ -276,12 +276,12 @@ class WP_Routing_Route
      *
      * Allows writing paths in a more legible way like
      *
-     *     WP_Routing_Route::get('hello/{name}', $callback)->where('name', '\w+');
+     *     WPRouting_Route::get('hello/{name}', $callback)->where('name', '\w+');
      *
      * @param  string $keyOrArray The slug for the path component
      * @param  string $pattern The corresponding regex pattern
      *
-     * @return WP_Routing_Route             The calling instance of the class.
+     * @return WPRouting_Route             The calling instance of the class.
      */
     public function where($keyOrArray, $pattern = null)
     {
@@ -306,13 +306,13 @@ class WP_Routing_Route
      *
      * By default the id will be set based on the path, as an example
      *
-     *     WP_Routing_Route::get('hello/{name}', $callback);
+     *     WPRouting_Route::get('hello/{name}', $callback);
      *
      * would have an id of 'hello-name'. This method will override that.
      *
      * @param  string $id The new id
      *
-     * @return WP_Routing_Route     The calling instance of this class
+     * @return WPRouting_Route     The calling instance of this class
      */
     public function withId($id)
     {
@@ -334,7 +334,7 @@ class WP_Routing_Route
      * @param  string $key The key for the information to add.
      * @param  mixed $value The value for the information to add.
      *
-     * @return WP_Routing_Route         The calling instance.
+     * @return WPRouting_Route         The calling instance.
      */
     public function with($key, $value)
     {
@@ -360,7 +360,7 @@ class WP_Routing_Route
      *
      * @param  string /array $templateOrArray The basename of the template or an array of basenames, will respect paths.
      *
-     * @return WP_Routing_Route                  The calling instance of the WP_Routing_Route.
+     * @return WPRouting_Route                  The calling instance of the WPRouting_Route.
      */
     public function withTemplate($templateOrArray)
     {
@@ -389,7 +389,7 @@ class WP_Routing_Route
      *
      * @param  callable /string $callbackOrString Either a function to generate the title or a string to be returned as is.
      *
-     * @return WP_Routing_Route                   The calling instance of the WP_Routing_Route.
+     * @return WPRouting_Route                   The calling instance of the WPRouting_Route.
      */
     public function withTitle($callbackOrString)
     {
