@@ -23,6 +23,6 @@
         "codeception/remote-debug": "dev-master"
     },
     "autoload": {
-        "classmap":["src/"]
+        "classmap":["src/WPRouting"]
     }
 }
