@@ -15,6 +15,8 @@ class WPRouting_Route
     protected $args = array();
     protected $routePatterns = array();
 
+    public static $WPRouterArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
+
     public function __construct(tad_FunctionsAdapterInterface $f = null)
     {
         if (is_null($f)) {
@@ -341,8 +343,7 @@ class WPRouting_Route
         if (!is_string($key)) {
             throw new BadMethodCallException("Key must be a string", 1);
         }
-        $methodAccessibleArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
-        if (in_array($key, $methodAccessibleArgs)) {
+        if (in_array($key, self::$WPRouterArgs)) {
             throw new InvalidArgumentException("Argument $key should be set with its dedicated method.", 2);
         }
         $this->args[$key] = $value;

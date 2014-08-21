@@ -71,3 +71,19 @@ The `shouldBePersisted` method will default to `true` if no value is passed to i
 
     ->shouldBePersisted();
     ->shouldBePersisted(true);
+
+If the persistence of the route meta is set to `true`  then any route argument not related to WP Router (see the `WPRouting_Route::$WPRouterArgs` variable) and not excluded from persistence (see `WPRouting_PersistableRoute::$nonPersistingArgs` variable) will be persisted as route meta information.
+All routes meta will be stored in a single option in WordPress database (see `WPRouting_PersistableRoute::OPTION_ID` constant for its value) in an array using the structure
+    
+    [
+        'route-one' :
+            ['title' => 'Route One', 'permalink' => 'route-one', 'some-meta' => 'some meta value']
+        'route-two' :
+            ['title' => 'Route Two', 'permalink' => 'route-two', 'some-meta' => 'some meta value']
+    ]
+
+where 1st level array keys are the routes ids.
+
+### Hooking to alter the route meta information
+**Before** route meta information is persisted to the database and **after** the argument pruning has been made the `WPRouting_PersistableRoute` class offers a filter hook (see <code>WPRouting_PersistableRoute::ROUTE_PERSISTED_VALUES_FILTER</code> for its tag) to alter the route meta before it's persisted to the database.  
+The arguments for the filter function are the route arguments and the route id, **the filter will trigger one time for each route**.
