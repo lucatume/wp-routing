@@ -87,9 +87,9 @@ class WPRouting_PersistableRoute extends WPRouting_Route
      *
      * @return WPRouting_PersistableRoute $this
      */
-    public function shouldBePersisted()
+    public function shouldBePersisted($shouldBePersisted = null)
     {
-        $this->args['shouldBePersisted'] = true;
+        $this->args['shouldBePersisted'] = is_bool($shouldBePersisted) ? $shouldBePersisted : true;
         return $this;
     }
     
