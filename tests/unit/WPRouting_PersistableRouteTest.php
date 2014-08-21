@@ -127,14 +127,28 @@ class WP_Routing_PersistableRouteTest extends tad_TestCase
         $this->sut->hook();
         
         // add a GET method route to the /hello path with the above callback
-        $this->sut->_get($path, $callback)
-         ->shouldBePersisted()
-         ->withTitle('Hello route')
-         ->with('someMeta', 'foo')
-         ->with('anotherMeta', 23);
-        
+        $this->sut->_get($path, $callback)->shouldBePersisted()->withTitle('Hello route')->with('someMeta', 'foo')->with('anotherMeta', 23);
+
         // destroy the instance to trigger WPRouting_Route::replacePatterns
         $this->sut->__destruct();
         WPRouting_PersistableRoute::generateRoutes($this->router);
+    }
+
+    /**
+     * @test
+     * it should not allow setting the permalink using the with method
+     */
+    public function it_should_not_allow_setting_the_permalink_using_the_with_method()
+    {
+        $path = 'hello';
+        $id = 'hello';
+
+        // what the route will return
+        $callback = function () {
+            echo 'Hello there';
+        };
+        // add a GET method route to the /hello path with the above callback
+        $this->setExpectedException('InvalidArgumentException', null, 3);
+        $this->sut->_get($path, $callback)->shouldBePersisted()->withTitle('Hello route')->with('permalink', 'No good permalink');
     }
 }
