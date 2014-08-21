@@ -124,4 +124,23 @@ class WPRouting_PersistableRoute extends WPRouting_Route
         $shouldBePersisted = isset($this->args['shouldBePersisted']) && !empty($this->args['shouldBePersisted']);
         return $shouldBePersisted ? $shouldBePersisted : false;
     }
+
+    /**
+     * Allows adding additional information to a route.
+     *
+     * Additional arguments will be ignored by WP Router but might be persisted in the route meta.
+     *
+     * @param  string $key The key for the information to add.
+     * @param  mixed $value The value for the information to add.
+     *
+     * @return WPRouting_Route         The calling instance.
+     */
+    public function with($key, $value)
+    {
+        if (!is_string($key)) {
+            throw new BadMethodCallException("Key must be a string", 1);
+        }
+        $this->args[$key] = $value;
+        return $this;
+    }
 }
