@@ -78,6 +78,19 @@ class WPRouting_PersistableRoute extends WPRouting_Route
 
         // allow plugins to hook into persisted arguments
         if (function_exists('apply_filters')) {
+            /**
+             * The arguments for the route that will be persisted to the database.
+             * 
+             * The route meta information will be stored if the returned 
+             * value is an array.
+             * The route meta information will be saved in the option whose
+             * name is defined in the OPTION_ID constant.
+             * The option will be an associative array of arrays where each
+             * route meta is stored in an associative array under the route
+             * id key.
+             *
+             * @var array A key/value pairs array.
+             */
             $routeArgs = apply_filters(self::ROUTE_PERSISTED_VALUES_FILTER, $routeArgs, $routeId);
         }
 
