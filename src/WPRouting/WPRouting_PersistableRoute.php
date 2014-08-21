@@ -33,15 +33,19 @@ class WPRouting_PersistableRoute extends WPRouting_Route
         $this->option = $option;
         parent::__construct($f);
     }
-    
+
+    protected function maybeInitStaticHelper()
+    {
+        if (is_null(tad_Static::getClassExtending(self::PARENT_CLASS))) {
+            tad_Static::setClassExtending(self::PARENT_CLASS, __CLASS__);
+        }
+    }
+
     public static function set($key, $value = null)
     {
-        self::$
-        {
-            $key
-        } = $value;
+        self::${$key} = $value;
     }
-    
+
     /**
      * Override of the parent method to hook in the route generation process at a class level (in place of using the WP hook).
      *
@@ -50,38 +54,59 @@ class WPRouting_PersistableRoute extends WPRouting_Route
      */
     protected static function actOnRoute($routeId, Array $args)
     {
-        
+
         // if the route should not be persisted return
         if (!isset($args['shouldBePersisted']) or !$args['shouldBePersisted']) {
             return;
         }
-        
+
         // if the route title is not set return
         if (!isset($args['title']) or !is_string($args['title'])) {
             return;
         }
-        
+
         // if the route permalink is not set return
         if (!isset($args['permalink']) or !is_string($args['permalink']) or !preg_match("/[\\/\\w]*/ui", $args['permalink'])) {
             return;
         }
-        
-        $routeArgs = array(
-            'title' => $args['title'],
-            'permalink' => $args['permalink']
-        );
-        
+
+        // get additional meta that's not WP Router related
+        $routeArgs = self::pruneArgs($args);
+
         // allow plugins to hook into persisted arguments
         if (function_exists('apply_filters')) {
             $routeArgs = apply_filters(self::ROUTE_PERSISTED_VALUES_FILTER, $routeArgs, $routeId);
         }
-        
+
         // persist the route using the id as the key and storing the title and the permalink
         if (is_array($routeArgs)) {
             self::$option->setValue($routeId, $routeArgs);
         }
     }
-    
+
+    /**
+     * Removes WP Router related and the `shouldBePersisted` arguments from the route meta.
+     *
+     * @param  array  $args The route meta arguments. 
+     *
+     * @return array       The route meta arguments minus the WP Router related and the `shouldBePersisted` ones.
+     */
+    protected static function pruneArgs(array $args)
+    {
+        // set the basic ones
+        $routeArgs = array(
+            'title' => $args['title'],
+            'permalink' => $args['permalink']
+        );
+        $toPruneArgs = array_flip(WPRouting_Route::$WPRouterArgs);
+        // remove the shouldBePersisted argument too, any arg will do
+        // the key is relevant
+        $toPruneArgs['shouldBePersisted'] = -1;
+        $prunedArgs = array_diff_key($args, $toPruneArgs);
+        $routeArgs = array_merge($prunedArgs, $routeArgs);
+        return $routeArgs;
+    }
+
     /**
      * Sugar method to set the `shouldBePersisted` meta for a route.
      *
@@ -92,34 +117,7 @@ class WPRouting_PersistableRoute extends WPRouting_Route
         $this->args['shouldBePersisted'] = is_bool($shouldBePersisted) ? $shouldBePersisted : true;
         return $this;
     }
-    
-    /**
-     * Sets the `permalink` key for the route starting from the path.
-     *
-     * A `path` specified in the route like `/^hello$/` will set the route permalink to `hello`.
-     *
-     * @param $patterns
-     */
-    protected function replacePatterns($patterns)
-    {
-        
-        // call WPRouting_Route::replacePatterns
-        parent::replacePatterns($patterns);
-        
-        // set the permalink to something like path
-        // do not use the '/'
-        if (!isset($this->args['path'])) {
-            return;
-        }
-        $this->args['permalink'] = rtrim(ltrim($this->args['path'], '/^') , '$/');
-    }
-    
-    protected function maybeInitStaticHelper()
-    {
-        if (is_null(tad_Static::getClassExtending(self::PARENT_CLASS))) {
-            tad_Static::setClassExtending(self::PARENT_CLASS, __CLASS__);
-        }
-    }
+
     public function willBePersisted(){
         $shouldBePersisted = isset($this->args['shouldBePersisted']) && !empty($this->args['shouldBePersisted']);
         return $shouldBePersisted ? $shouldBePersisted : false;
@@ -142,5 +140,26 @@ class WPRouting_PersistableRoute extends WPRouting_Route
         }
         $this->args[$key] = $value;
         return $this;
+    }
+
+    /**
+     * Sets the `permalink` key for the route starting from the path.
+     *
+     * A `path` specified in the route like `/^hello$/` will set the route permalink to `hello`.
+     *
+     * @param $patterns
+     */
+    protected function replacePatterns($patterns)
+    {
+
+        // call WPRouting_Route::replacePatterns
+        parent::replacePatterns($patterns);
+
+        // set the permalink to something like path
+        // do not use the '/'
+        if (!isset($this->args['path'])) {
+            return;
+        }
+        $this->args['permalink'] = rtrim(ltrim($this->args['path'], '/^'), '$/');
     }
 }
