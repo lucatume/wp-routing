@@ -6,7 +6,19 @@
  */
 class WPRouting_Route
 {
-    public static $WPRouterArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
+    public static $WPRouterArgs = array(
+        'template',
+        'query_vars',
+        'id',
+        'page_arguments',
+        'page_callback',
+        'access_arguments',
+        'access_callback',
+        'title_arguments',
+        'title_callback',
+        'title',
+        'path'
+    );
     protected static $routes = array();
     protected static $patterns = array();
     protected static $filters = array();
@@ -15,7 +27,7 @@ class WPRouting_Route
     protected $id = '';
     protected $args = array();
     protected $routePatterns = array();
-
+    
     public function __construct(tad_FunctionsAdapterInterface $f = null)
     {
         if (is_null($f)) {
@@ -23,7 +35,7 @@ class WPRouting_Route
         }
         $this->f = $f;
     }
-
+    
     /**
      * The static method that will actually call WP Router to generate the routes.
      *
@@ -39,10 +51,12 @@ class WPRouting_Route
         if (is_null($f)) {
             $f = new tad_FunctionsAdapter();
         }
+        
         // action hook for plugins and themes to act on the route
         $f->do_action('route_before_adding_routes', self::$routes);
         foreach (self::$routes as $routeId => $args) {
             $router->add_route($routeId, $args);
+            
             /**
              * Allow for extending classes to act on the route and circumvent PHP 5.2 lack
              * of late static binding.
@@ -53,19 +67,26 @@ class WPRouting_Route
             $class = tad_Static::getClassExtending(__CLASS__);
             if ($class and $class != __CLASS__) {
                 if (method_exists($class, 'actOnRoute')) {
-                    call_user_func(array($class, 'actOnRoute'), $routeId, $args);
+                    call_user_func(array(
+                        $class,
+                        'actOnRoute'
+                    ) , $routeId, $args);
                 }
             }
         }
+        
         // action hook for plugins and themes to act on the route
         $f->do_action('route_after_adding_routes', self::$routes);
     }
-
+    
     public static function set($key, $value = null)
     {
-        self::${$key} = $value;
+        self::$
+        {
+            $key
+        } = $value;
     }
-
+    
     /**
      * Adds a pattern to be used in the routes without having to specify it every time.
      *
@@ -84,7 +105,7 @@ class WPRouting_Route
         }
         self::$patterns[$key] = $pattern;
     }
-
+    
     /**
      * Adds a filter, access callback, to be used in the routes.
      *
@@ -98,18 +119,30 @@ class WPRouting_Route
         if (!is_string($filterSlug) or !preg_match('/[\w]+/', $filterSlug)) {
             throw new BadMethodCallException("Filter slug mus be a strin with letters, numbers and underscores alone", 1);
         }
+        
         // could be a function name or an array specifying an object/class and a method
         if (!is_callable($filterCallback)) {
             throw new BadMethodCallException("Filter callback must be a callable", 2);
         }
         self::$filters[$filterSlug] = $filterCallback;
     }
-
+    
+    /**
+     * Adds a GET method route to a function callback or template.
+     *
+     * @param  string $path               The route path relative to the root URL.
+     * @param  callable/array $callbackAndFilters Either the callable function that will act as the route endpoint or an array containing the callable function and the filters to apply to the route.
+     *
+     * @return WPRouting_Route           The calling instance.
+     */
     public static function get($path, $callbackAndFilters)
     {
-        return self::__callStatic('get', array($path, $callbackAndFilters));
+        return self::__callStatic('get', array(
+            $path,
+            $callbackAndFilters
+        ));
     }
-
+    
     /**
      * Allows accessing get, post, put and delete method statically.
      *
@@ -124,22 +157,30 @@ class WPRouting_Route
      */
     public static function __callStatic($func, $args)
     {
-
+        
         // get defined public methods
-        $publicMethods = array('get', 'post', 'put', 'delete');
-
+        $publicMethods = array(
+            'get',
+            'post',
+            'put',
+            'delete'
+        );
+        
         // if not $func in defined public method throw
         if (!in_array($func, $publicMethods)) {
             throw new InvalidArgumentException("$func is not a defined class method", 1);
         }
-
+        
         // create and set an instance of the class
         $instance = new self();
         $instance->hook();
-        call_user_func_array(array($instance, "_$func"), $args);
+        call_user_func_array(array(
+            $instance,
+            "_$func"
+        ) , $args);
         return $instance;
     }
-
+    
     /**
      * Make the route hook into the generate routes action.
      *
@@ -147,25 +188,61 @@ class WPRouting_Route
      */
     public function hook()
     {
-        $this->f->add_action('wp_router_generate_routes', array(__CLASS__, 'generateRoutes'));
+        $this->f->add_action('wp_router_generate_routes', array(
+            __CLASS__,
+            'generateRoutes'
+        ));
         return $this;
     }
-
+    
+    /**
+     * Adds a PUT method route to a function callback or template.
+     *
+     * @param  string $path               The route path relative to the root URL.
+     * @param  callable/array $callbackAndFilters Either the callable function that will act as the route endpoint or an array containing the callable function and the filters to apply to the route.
+     *
+     * @return WPRouting_Route           The calling instance.
+     */
     public static function put($path, $callbackAndFilters)
     {
-        return self::__callStatic('put', array($path, $callbackAndFilters));
+        return self::__callStatic('put', array(
+            $path,
+            $callbackAndFilters
+        ));
     }
-
+    
+    /**
+     * Adds a POST method route to a function callback or template.
+     *
+     * @param  string $path               The route path relative to the root URL.
+     * @param  callable/array $callbackAndFilters Either the callable function that will act as the route endpoint or an array containing the callable function and the filters to apply to the route.
+     *
+     * @return WPRouting_Route           The calling instance.
+     */
     public static function post($path, $callbackAndFilters)
     {
-        return self::__callStatic('post', array($path, $callbackAndFilters));
+        return self::__callStatic('post', array(
+            $path,
+            $callbackAndFilters
+        ));
     }
-
+    
+    /**
+     * Adds a DELETE method route to a function callback or template.
+     *
+     * @param  string $path               The route path relative to the root URL.
+     * @param  callable/array $callbackAndFilters Either the callable function that will act as the route endpoint or an array containing the callable function and the filters to apply to the route.
+     *
+     * @return WPRouting_Route           The calling instance.
+     */
     public static function delete($path, $callbackAndFilters)
     {
-        return self::__callStatic('delete', array($path, $callbackAndFilters));
+        return self::__callStatic('delete', array(
+            $path,
+            $callbackAndFilters
+        ));
     }
-
+    
     /**
      * A class-level hook to allow for extending classes to act on each route.
      *
@@ -177,7 +254,7 @@ class WPRouting_Route
     protected static function actOnRoute($routeId, Array $args)
     {
     }
-
+    
     /**
      * Adds a GET method route.
      *
@@ -192,19 +269,19 @@ class WPRouting_Route
     {
         return $this->base('GET', $path, $callbackAndFilters);
     }
-
+    
     protected function base($method, $path, $callbackAndFilters)
     {
         $routeFilters = array();
         $pageCallback = null;
-
+        
         // what is the third argument?
         if (is_callable($callbackAndFilters)) {
-
+            
             // it's the page callback
             $pageCallback = $callbackAndFilters;
         } else if (is_array($callbackAndFilters)) {
-
+            
             // it's the filters and callback array
             // filters can be in string or array form
             if (!is_array($callbackAndFilters[0]) and !is_string($callbackAndFilters[0])) {
@@ -213,7 +290,7 @@ class WPRouting_Route
             if (!is_callable($callbackAndFilters[1])) {
                 throw new BadMethodCallException("Callback function is missing", 4);
             }
-
+            
             // filters are in array or pipe-separated form?
             if (is_array($callbackAndFilters[0])) {
                 $routeFilters = $callbackAndFilters[0];
@@ -224,29 +301,40 @@ class WPRouting_Route
         } else {
             throw new BadMethodCallException("Proper call is path and either a page callback function or an array containing filters and then the callback function", 3);
         }
-
+        
         // create an id from the path like
         // 'hello/some/{path}' to 'hello-some-path'
-        $this->id = trim(preg_replace("/-+/ui", '-', preg_replace("/[^\\w-]/ui", "-", $path)), '-');
+        $this->id = trim(preg_replace("/-+/ui", '-', preg_replace("/[^\\w-]/ui", "-", $path)) , '-');
         $this->method = $method;
         $this->args['path'] = $path;
-
+        
         // by default do not use the theme template
         $this->args['template'] = false;
-        $this->args['page_callback'] = array($method => $pageCallback);
-
+        $this->args['page_callback'] = array(
+            $method => $pageCallback
+        );
+        
         // how many filters?
         if (count($routeFilters) == 1) {
+            
             // then set it as the access callback
-            $this->args['access_callback'] = array($method => self::$filters[$routeFilters[0]]);
+            $this->args['access_callback'] = array(
+                $method => self::$filters[$routeFilters[0]]
+            );
         } else if (count($routeFilters) > 1) {
+            
             // if there is more than one filter
             $filters = new WPRouting_Filters($routeFilters);
-            $this->args['access_callback'] = array($method => array($filters , 'callFilters'));
+            $this->args['access_callback'] = array(
+                $method => array(
+                    $filters,
+                    'callFilters'
+                )
+            );
         }
         return $this;
     }
-
+    
     /**
      * Adds a POST method route.
      *
@@ -261,7 +349,7 @@ class WPRouting_Route
     {
         return $this->base('POST', $path, $callbackAndFilters);
     }
-
+    
     /**
      * Adds a PUT method route.
      *
@@ -276,7 +364,7 @@ class WPRouting_Route
     {
         return $this->base('PUT', $path, $callbackAndFilters);
     }
-
+    
     /**
      * Adds a DELETE method route.
      *
@@ -291,7 +379,7 @@ class WPRouting_Route
     {
         return $this->base('DELETE', $path, $callbackAndFilters);
     }
-
+    
     /**
      * Allows setting key/regex pattern couples.
      *
@@ -314,14 +402,16 @@ class WPRouting_Route
         }
         $couples = $keyOrArray;
         if (is_string($keyOrArray)) {
-            $couples = array($keyOrArray => $pattern);
+            $couples = array(
+                $keyOrArray => $pattern
+            );
         }
-
+        
         // save the patterns local to the route
         $this->routePatterns = array_merge($this->routePatterns, $couples);
         return $this;
     }
-
+    
     /**
      * Allows specifying the id for the route.
      *
@@ -346,7 +436,7 @@ class WPRouting_Route
         $this->$id = $id;
         return $this;
     }
-
+    
     /**
      * Allows adding additional information to a route.
      *
@@ -368,7 +458,7 @@ class WPRouting_Route
         $this->args[$key] = $value;
         return $this;
     }
-
+    
     /**
      * Allows specifying which templates to use.
      *
@@ -388,22 +478,24 @@ class WPRouting_Route
             throw new BadMethodCallException("Template must either be a string or an array of strings", 1);
         }
         $templates = $templateOrArray;
-
+        
         // if it's a string make it an array
         if (is_string($templateOrArray)) {
-            $templates = array($templateOrArray);
+            $templates = array(
+                $templateOrArray
+            );
         }
-
+        
         // add .php extension where needed
         foreach ($templates as & $template) {
             $template = str_replace('.php', '', $template) . '.php';
         }
-
+        
         // set the template in the route
         $this->args['template'] = $templates;
         return $this;
     }
-
+    
     /**
      * Allows setting the title that will be returned in functions like the_title.
      *
@@ -417,15 +509,17 @@ class WPRouting_Route
             throw new BadMethodCallException("Title must be a callback function or a string", 1);
         }
         if (is_callable($callbackOrString)) {
-            $this->args['title_callback'] = array($this->method => $callbackOrString);
+            $this->args['title_callback'] = array(
+                $this->method => $callbackOrString
+            );
         } else {
-
+            
             // is a string
             $this->args['title'] = $callbackOrString;
         }
         return $this;
     }
-
+    
     /**
      * The method will close the fluent chain effectively registering the route.
      * Please note that
@@ -438,14 +532,15 @@ class WPRouting_Route
      */
     public function __destruct()
     {
+        
         // merge patterns specified for all routes with patterns specific to the route
         $patterns = array_merge(self::$patterns, $this->routePatterns);
-
+        
         // replace the patterns local to the route
         $this->replacePatterns($patterns);
         self::$routes[$this->id] = $this->args;
     }
-
+    
     /**
      * Replaces the Laravel-like patterns found in a path to patterns that WP_Router will accept.
      *
@@ -457,7 +552,7 @@ class WPRouting_Route
             return;
         }
         foreach ($patterns as $key => $pattern) {
-
+            
             // convert the pattern in the path
             $match = '~\{' . $key . '\}~';
             $replacement = '(' . trim($pattern, '()') . ')';
@@ -467,11 +562,12 @@ class WPRouting_Route
             }
             $this->args['query_vars'][$key] = count($this->args['query_vars']) + 1;
         }
-
+        
         // take care of initial caret and ending dollar sign
-        $this->args['path'] = '^' . rtrim(ltrim($this->args['path'], '^/'), '$/') . '$';
+        $this->args['path'] = '^' . rtrim(ltrim($this->args['path'], '^/') , '$/') . '$';
     }
-    public function setFunctionsAdapter(tad_FunctionsAdapterInterface $functionsAdapter = null){
+    public function setFunctionsAdapter(tad_FunctionsAdapterInterface $functionsAdapter = null)
+    {
         $this->f = $functionsAdapter ? $functionsAdapter : new tad_FunctionsAdapter();
     }
 }
