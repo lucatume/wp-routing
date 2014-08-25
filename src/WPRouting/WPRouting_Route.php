@@ -6,6 +6,7 @@
  */
 class WPRouting_Route
 {
+    public static $WPRouterArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
     protected static $routes = array();
     protected static $patterns = array();
     protected static $filters = array();
@@ -14,8 +15,6 @@ class WPRouting_Route
     protected $id = '';
     protected $args = array();
     protected $routePatterns = array();
-
-    public static $WPRouterArgs = array('template', 'query_vars', 'id', 'page_arguments', 'page_callback', 'access_arguments', 'access_callback', 'title_arguments', 'title_callback', 'title', 'path');
 
     public function __construct(tad_FunctionsAdapterInterface $f = null)
     {
@@ -106,6 +105,11 @@ class WPRouting_Route
         self::$filters[$filterSlug] = $filterCallback;
     }
 
+    public static function get($path, $callbackAndFilters)
+    {
+        return self::__callStatic('get', array($path, $callbackAndFilters));
+    }
+
     /**
      * Allows accessing get, post, put and delete method statically.
      *
@@ -145,6 +149,21 @@ class WPRouting_Route
     {
         $this->f->add_action('wp_router_generate_routes', array(__CLASS__, 'generateRoutes'));
         return $this;
+    }
+
+    public static function put($path, $callbackAndFilters)
+    {
+        return self::__callStatic('put', array($path, $callbackAndFilters));
+    }
+
+    public static function post($path, $callbackAndFilters)
+    {
+        return self::__callStatic('post', array($path, $callbackAndFilters));
+    }
+
+    public static function delete($path, $callbackAndFilters)
+    {
+        return self::__callStatic('delete', array($path, $callbackAndFilters));
     }
 
     /**
