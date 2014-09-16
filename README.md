@@ -57,7 +57,7 @@ At a bare minimum a route must define a title and a path to be eligible for pers
 
         // file my-routes-plugin.php
 
-    WPRouting_Route::get('wp_router/{word}', function($word){
+    WPRouting_PersistableRoute::get('wp_router/{word}', function($word){
             echo "Hello $word";
         })->where('word', '.*?')
           ->withTitle('Wp Router Sample Page')
