@@ -45,7 +45,7 @@ to this
           ->withTitle('Wp Router Sample Page')
           ->withTemplate(array(
             'sample-page',
-            dirname(__FILE__).DIRECTORY_SEPARATOR.'sample-page.php'
+            dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sample-page.php'
             );
 
 ## WPRouting_PersistableRoute
@@ -62,7 +62,7 @@ At a bare minimum a route must define a title and a path to be eligible for pers
         })->withTitle('Wp Router Sample Page')
           ->withTemplate(array(
             'sample-page',
-            dirname(__FILE__).DIRECTORY_SEPARATOR.'sample-page.php'
+            dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sample-page.php'
             )
           ->shouldBePersisted();
 
