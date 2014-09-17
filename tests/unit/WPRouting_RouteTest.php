@@ -138,7 +138,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'type',
 				'id'
 			),
-			'title_arguments' => array('type', 'id'),
+			'title_arguments'  => array(
+				'type',
+				'id'
+			),
 			'page_arguments'   => array(
 				'type',
 				'id'
@@ -170,7 +173,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'id',
 				'foo'
 			),
-			'title_arguments' => array('type', ' id', 'foo'),
+			'title_arguments'  => array(
+				'type',
+				'id',
+				'foo'
+			),
 			'page_arguments'   => array(
 				'type',
 				'id',
@@ -208,7 +215,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'id',
 				'foo'
 			),
-			'title_arguments' => array('type', 'id', 'foo'),
+			'title_arguments'  => array(
+				'type',
+				'id',
+				'foo'
+			),
 			'page_arguments'   => array(
 				'type',
 				'id',
@@ -248,7 +259,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'type',
 				'id'
 			),
-			'title_arguments' => array('type', 'id'),
+			'title_arguments'  => array(
+				'type',
+				'id'
+			),
 			'page_arguments'   => array(
 				'type',
 				'id'
@@ -285,7 +299,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'category',
 				'category-id'
 			),
-			'title_arguments' => array('category', 'category-id'),
+			'title_arguments'  => array(
+				'category',
+				'category-id'
+			),
 			'page_arguments'   => array(
 				'category',
 				'category-id'
@@ -387,7 +404,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'category',
 				'category-id'
 			),
-			'title_arguments' => array('category', 'category-id'),
+			'title_arguments'  => array(
+				'category',
+				'category-id'
+			),
 			'page_arguments'   => array(
 				'category',
 				'category-id'
@@ -421,7 +441,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'category',
 				'category-id'
 			),
-			'title_arguments' => array('category', 'category-id'),
+			'title_arguments'  => array(
+				'category',
+				'category-id'
+			),
 			'page_arguments'   => array(
 				'category',
 				'category-id'
@@ -453,7 +476,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 				'category',
 				'category-id'
 			),
-			'title_arguments' => array('category', 'category-id'),
+			'title_arguments'  => array(
+				'category',
+				'category-id'
+			),
 			'page_arguments'   => array(
 				'category',
 				'category-id'
