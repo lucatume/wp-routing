@@ -6,7 +6,10 @@ class WP_Routing_RouteTest extends tad_TestCase {
 	protected $sut = null;
 
 	public function setUp() {
-		$this->f      = $this->getMockFunctions( array( 'add_action', 'do_action' ) );
+		$this->f      = $this->getMockFunctions( array(
+				'add_action',
+				'do_action'
+			) );
 		$this->router = $this->getMock( 'WP_Router', array( 'add_route' ) );
 
 		// reset the WPRouting_Route
@@ -20,9 +23,9 @@ class WP_Routing_RouteTest extends tad_TestCase {
 
 	public function testItShouldHook() {
 		$this->f->expects( $this->once() )->method( 'add_action' )->with( 'wp_router_generate_routes', array(
-				'WPRouting_Route',
-				'generateRoutes'
-			) );
+			'WPRouting_Route',
+			'generateRoutes'
+		) );
 		$this->sut->hook();
 	}
 
@@ -35,6 +38,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'GET' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -50,8 +54,18 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$callback  = function () {
 			echo 'Hello there';
 		};
-		$callbacks = array( 'GET' => $callback, 'POST' => $callback, 'PUT' => $callback, 'DELETE' => $callback );
-		$args      = array( 'path' => '^some/path$', 'page_callback' => $callbacks, 'template' => false );
+		$callbacks = array(
+			'GET'    => $callback,
+			'POST'   => $callback,
+			'PUT'    => $callback,
+			'DELETE' => $callback
+		);
+		$args      = array(
+			'path'          => '^some/path$',
+			'page_callback' => $callbacks,
+			'page_arguments' => array(),
+			'template'      => false
+		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_all( $path, $callback );
@@ -68,6 +82,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'POST' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -86,6 +101,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'PUT' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -104,6 +120,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'DELETE' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -122,7 +139,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/(event|post)/([0-9]+)$',
 			'page_callback' => array( 'GET' => $callback ),
-			'query_vars'    => array( 'type' => 1, 'id' => 2 ),
+			'page_arguments' => array('type', 'id'),
+			'query_vars'    => array(
+				'type' => 1,
+				'id'   => 2
+			),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -141,16 +162,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/(event|post)/([0-9]+)/([\w]{3})$',
 			'page_callback' => array( 'GET' => $callback ),
-			'query_vars'    => array( 'type' => 1, 'id' => 2, 'foo' => 3 ),
+			'page_arguments' => array('type', 'id', 'foo'),
+			'query_vars'    => array(
+				'type' => 1,
+				'id'   => 2,
+				'foo'  => 3
+			),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, $callback )->where( array(
-				'type' => '(event|post)',
-				'id'   => '[0-9]+',
-				'foo'  => '[\w]{3}'
-			) );
+			'type' => '(event|post)',
+			'id'   => '[0-9]+',
+			'foo'  => '[\w]{3}'
+		) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -164,16 +190,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/(event|post)/([0-9]+)/([\w]{3})$',
 			'page_callback' => array( 'GET' => $callback ),
-			'query_vars'    => array( 'type' => 1, 'id' => 2, 'foo' => 3 ),
+			'page_arguments' => array('type', 'id', 'foo'),
+			'query_vars'    => array(
+				'type' => 1,
+				'id'   => 2,
+				'foo'  => 3
+			),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, $callback )->where( array(
-				'type' => '(event|post)',
-				'id'   => '[0-9]+',
-				'foo'  => '[\w]{3}'
-			) )->withId( 'some random route' );
+			'type' => '(event|post)',
+			'id'   => '[0-9]+',
+			'foo'  => '[\w]{3}'
+		) )->withId( 'some random route' );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -190,7 +221,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/(event|post)/([0-9]+)$',
 			'page_callback' => array( 'GET' => $callback ),
-			'query_vars'    => array( 'type' => 1, 'id' => 2 ),
+			'page_arguments' => array('type', 'id'),
+			'query_vars'    => array(
+				'type' => 1,
+				'id'   => 2
+			),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -215,16 +250,20 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'            => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback'   => array( 'GET' => $callback ),
-			'query_vars'      => array( 'category' => 1, 'category-id' => 2 ),
+			'page_arguments' => array('category', 'category-id'),
+			'query_vars'      => array(
+				'category'    => 1,
+				'category-id' => 2
+			),
 			'access_callback' => array( 'GET' => $accessCallback ),
 			'template'        => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, array(
-				'auth',
-				$callback
-			) )->where( 'category', '[\w]+' )->where( 'category-id', '[0-9]+' );
+			'auth',
+			$callback
+		) )->where( 'category', '[\w]+' )->where( 'category-id', '[0-9]+' );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -238,6 +277,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'GET' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -254,6 +294,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'PUT' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -270,6 +311,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'POST' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -286,6 +328,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^some/path$',
 			'page_callback' => array( 'DELETE' => $callback ),
+			'page_arguments' => array(),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -305,7 +348,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args          = array(
 			'path'           => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback'  => array( 'GET' => $callback ),
-			'query_vars'     => array( 'category' => 1, 'category-id' => 2 ),
+			'page_arguments' => array('category', 'category-id'),
+			'query_vars'     => array(
+				'category'    => 1,
+				'category-id' => 2
+			),
 			'template'       => false,
 			'title_callback' => array( 'GET' => $titleCallback )
 		);
@@ -327,7 +374,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback' => array( 'GET' => $callback ),
-			'query_vars'    => array( 'category' => 1, 'category-id' => 2 ),
+			'page_arguments' => array('category', 'category-id'),
+			'query_vars'    => array(
+				'category'    => 1,
+				'category-id' => 2
+			),
 			'template'      => false,
 			'title'         => 'Page Title'
 		);
@@ -347,7 +398,11 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'          => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback' => array( 'GET' => $callback ),
-			'query_vars'    => array( 'category' => 1, 'category-id' => 2 ),
+			'page_arguments' => array('category', 'category-id'),
+			'query_vars'    => array(
+				'category'    => 1,
+				'category-id' => 2
+			),
 			'template'      => array( 'category-term.php' )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
@@ -367,11 +422,18 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'          => '^hello$',
 			'page_callback' => array( 'GET' => $callback ),
-			'template'      => array( 'single.php', 'page.php' )
+			'page_arguments' => array(),
+			'template'      => array(
+				'single.php',
+				'page.php'
+			)
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
-		$this->sut->_get( $path, $callback )->withTemplate( array( 'single', 'page' ) );
+		$this->sut->_get( $path, $callback )->withTemplate( array(
+				'single',
+				'page'
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -386,11 +448,18 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'          => '^hello$',
 			'page_callback' => array( 'GET' => $callback ),
-			'template'      => array( 'single.php', 'page.php' )
+			'page_arguments' => array(),
+			'template'      => array(
+				'single.php',
+				'page.php'
+			)
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
-		$this->sut->_get( $path, $callback )->withTemplate( array( 'single.php', 'page.php' ) );
+		$this->sut->_get( $path, $callback )->withTemplate( array(
+				'single.php',
+				'page.php'
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -405,11 +474,18 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'          => '^hello$',
 			'page_callback' => array( 'GET' => $callback ),
-			'template'      => array( 'templates/single.php', 'templates/page.php' )
+			'page_arguments' => array(),
+			'template'      => array(
+				'templates/single.php',
+				'templates/page.php'
+			)
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
-		$this->sut->_get( $path, $callback )->withTemplate( array( 'templates/single.php', 'templates/page' ) );
+		$this->sut->_get( $path, $callback )->withTemplate( array(
+				'templates/single.php',
+				'templates/page'
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -424,6 +500,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'          => '^hello$',
 			'page_callback' => array( 'GET' => $callback ),
+			'page_arguments' => array(),
 			'template'      => array(
 				'/some/folder/templates/single.php',
 				'/some/folder/templates/page.php'
@@ -432,9 +509,9 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, $callback )->withTemplate( array(
-				'/some/folder/templates/single.php',
-				'/some/folder/templates/page'
-			) );
+			'/some/folder/templates/single.php',
+			'/some/folder/templates/page'
+		) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -455,15 +532,19 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'          => '^hello$',
 			'page_callback' => array( 'GET' => $callback ),
-			'template'      => array( '/some/folder/templates/single.php', '/some/folder/templates/page.php' ),
+			'page_arguments' => array(),
+			'template'      => array(
+				'/some/folder/templates/single.php',
+				'/some/folder/templates/page.php'
+			),
 			'description'   => 'The hello route'
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, $callback )->withTemplate( array(
-					'/some/folder/templates/single.php',
-					'/some/folder/templates/page'
-				) )->with( 'description', 'The hello route' );
+			'/some/folder/templates/single.php',
+			'/some/folder/templates/page'
+		) )->with( 'description', 'The hello route' );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -482,7 +563,12 @@ class WP_Routing_RouteTest extends tad_TestCase {
 	public function it_should_allow_passing_a_function_name_as_callback() {
 		$path = 'some';
 		$id   = 'some';
-		$args = array( 'path' => '^some$', 'page_callback' => array( 'GET' => 'phpinfo' ), 'template' => false );
+		$args = array(
+			'path'          => '^some$',
+			'page_callback' => array( 'GET' => 'phpinfo' ),
+			'page_arguments' => array(),
+			'template'      => false
+		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, 'phpinfo' );
@@ -499,12 +585,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$id   = 'some';
 		$args = array(
 			'path'          => '^some$',
-			'page_callback' => array( 'GET' => array( 'WPRouting_Route', 'generateRoutes' ) ),
+			'page_callback' => array(
+				'page_arguments' => array(),
+				'GET' => array(
+					'WPRouting_Route',
+					'generateRoutes'
+				)
+			),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
-		$this->sut->_get( $path, array( 'WPRouting_Route', 'generateRoutes' ) );
+		$this->sut->_get( $path, array(
+				'WPRouting_Route',
+				'generateRoutes'
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -519,12 +614,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$mock = $this->getMock( 'stdClass', array( 'someMethod' ) );
 		$args = array(
 			'path'          => '^some$',
-			'page_callback' => array( 'GET' => array( $mock, 'someMethod' ) ),
+			'page_callback' => array(
+				'page_arguments' => array(),
+				'GET' => array(
+					$mock,
+					'someMethod'
+				)
+			),
 			'template'      => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
-		$this->sut->_get( $path, array( $mock, 'someMethod' ) );
+		$this->sut->_get( $path, array(
+				$mock,
+				'someMethod'
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -539,7 +643,12 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$callback = function () {
 
 		};
-		$args     = array( 'path' => '^some$', 'page_callback' => array( 'GET' => $callback ), 'template' => false );
+		$args     = array(
+			'path'          => '^some$',
+			'page_callback' => array( 'GET' => $callback ),
+			'page_arguments' => array(),
+			'template'      => false
+		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		$this->sut->_get( $path, $callback );
@@ -557,13 +666,17 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'            => '^some$',
 			'page_callback'   => array( 'GET' => 'phpinfo' ),
+			'page_arguments' => array(),
 			'template'        => false,
 			'access_callback' => array( 'GET' => 'phpcredits' )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		WPRouting_Route::filter( 'filter', 'phpcredits' );
-		$this->sut->_get( $path, array( 'filter', 'phpinfo' ) );
+		$this->sut->_get( $path, array(
+				'filter',
+				'phpinfo'
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -577,14 +690,26 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$id   = 'some';
 		$args = array(
 			'path'            => '^some$',
-			'page_callback'   => array( 'GET' => array( 'WPRouting_Route', 'generateRoutes' ) ),
+			'page_callback'   => array(
+				'page_arguments' => array(),
+				'GET' => array(
+					'WPRouting_Route',
+					'generateRoutes'
+				)
+			),
 			'template'        => false,
 			'access_callback' => array( 'GET' => 'phpcredits' )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		WPRouting_Route::filter( 'filter', 'phpcredits' );
-		$this->sut->_get( $path, array( 'filter', array( 'WPRouting_Route', 'generateRoutes' ) ) );
+		$this->sut->_get( $path, array(
+				'filter',
+				array(
+					'WPRouting_Route',
+					'generateRoutes'
+				)
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -599,14 +724,26 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$mock = $this->getMock( 'stdClass', array( 'someMethod' ) );
 		$args = array(
 			'path'            => '^some$',
-			'page_callback'   => array( 'GET' => array( $mock, 'someMethod' ) ),
+			'page_callback'   => array(
+				'page_arguments' => array(),
+				'GET' => array(
+					$mock,
+					'someMethod'
+				)
+			),
 			'template'        => false,
 			'access_callback' => array( 'GET' => 'phpcredits' )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		WPRouting_Route::filter( 'filter', 'phpcredits' );
-		$this->sut->_get( $path, array( 'filter', array( $mock, 'someMethod' ) ) );
+		$this->sut->_get( $path, array(
+				'filter',
+				array(
+					$mock,
+					'someMethod'
+				)
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
@@ -623,13 +760,17 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'            => '^some$',
 			'page_callback'   => array( 'GET' => $callback ),
+			'page_arguments' => array(),
 			'template'        => false,
 			'access_callback' => array( 'GET' => 'phpcredits' )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
 		WPRouting_Route::filter( 'filter', 'phpcredits' );
-		$this->sut->_get( $path, array( 'filter', $callback ) );
+		$this->sut->_get( $path, array(
+				'filter',
+				$callback
+			) );
 		$this->sut->__destruct();
 		WPRouting_Route::generateRoutes( $this->router );
 	}
