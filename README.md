@@ -79,7 +79,7 @@ Any filter needs to be registered using the `filter` static method.
 * `pattern`: static, sets a pattern to be used for all routes.
 
 #### Examples
-Please note that path variables are passd in their appearance order to the page, access and title  callback methods/functions.  
+Please note that path variables are passed in their appearance order to the page, access and title  callback methods/functions.  
 I want to add a `/posts` page displaying the posts archive
 
     WPRouting_Route::get('posts', function(){
