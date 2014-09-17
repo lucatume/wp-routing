@@ -48,6 +48,69 @@ to this
             dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sample-page.php'
             );
 
+### Route methods
+The entry point of any route generation is always one of 4 methods:
+
+* `WPRouting_Route::get` to handle `GET` requests
+* `WPRouting_Route::post` to handle `POST` requests
+* `WPRouting_Route::put` to handle `PUT` requests
+* `WPRouting_Route::delete` to handle `DELETE` requests
+* `WPRouting_Route::all` to handle all requests
+
+each one of the methods above will take two arguments
+
+* a path relative to the root URL
+* a filters and callback parameters parameter
+
+The path can contain placeholders strings like `{word}` in the example above that will require a definition using the `where` method later in the fluent chain.  
+The second parameter can be a simple callback function or be an array containing:
+
+* an array or a pipe char separated list of filters
+* a callback function
+
+Any filter needs to be registered using the `filter` static method.
+
+* `withTitle`: sets a route page title, can be a string or a callback function.
+* `withTemplate`: sets the template to be used to display the route, follows the same mechanic [WP Router follows.](https://wordpress.org/plugins/wp-router/other_notes/)
+* `with`: sets a key/value pair of meta information to be attached to a route.
+* `withId`: explicitly sets the route id, normally the route id would be constructed dash-separating-the-path.
+* `where`: sets a pattern to be used for the route path.
+* `filter`: static, sets a filter to be used for the route access callback.
+* `pattern`: static, sets a pattern to be used for all routes.
+
+#### Examples
+I want to add a `/posts` page displaying the posts archive
+
+    WPRouting_Route::get('posts', function(){
+        echo 'My post archive';
+    })->withTitle('Archive');
+
+I wand to add a `/secret-posts` page accessible to admins alone
+    
+    WPRouting_Route::filter('admin', function(){
+            return current_user_can('activate_plugins');
+        }) ;
+
+    WPRouting_Route::get('secret-posts', array('admin', function(){
+            echo 'Secret posts';
+        }))->withTitle('Secret page');
+
+I want to add PUT and POST endpoints for editors to edit posts
+
+    WPRouting_Route::filter('editor', function(){
+            return current_user_can('edit_posts');
+        });
+
+    WPRouting_Route::pattern('id', '\d+');
+
+    WPRouting_Route::put('posts/{id}', array('editor', function(){
+            echo 'Doing some post updating';
+        }));
+
+    WPRouting_Route::post('posts/{id}', array('editor', function(){
+            echo 'Adding a post';
+        }));
+
 ## WPRouting_PersistableRoute
 An extension of the base `WPRouting_Route` class that allows persisting route meta information to the WordPress database.
 
