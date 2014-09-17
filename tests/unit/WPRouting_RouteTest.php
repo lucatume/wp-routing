@@ -132,18 +132,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello there';
 		};
 		$args     = array(
-			'path'           => '^some/(event|post)/([0-9]+)$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('type', 'id'),
-			'page_arguments' => array(
+			'path'             => '^some/(event|post)/([0-9]+)$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'type',
 				'id'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'type',
+				'id'
+			),
+			'query_vars'       => array(
 				'type' => 1,
 				'id'   => 2
 			),
-			'template'       => false
+			'template'         => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -159,20 +162,24 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello there';
 		};
 		$args     = array(
-			'path'           => '^some/(event|post)/([0-9]+)/([\w]{3})$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('type', 'id', 'foo'),
-			'page_arguments' => array(
+			'path'             => '^some/(event|post)/([0-9]+)/([\w]{3})$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'type',
 				'id',
 				'foo'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'type',
+				'id',
+				'foo'
+			),
+			'query_vars'       => array(
 				'type' => 1,
 				'id'   => 2,
 				'foo'  => 3
 			),
-			'template'       => false
+			'template'         => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -192,20 +199,24 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello there';
 		};
 		$args     = array(
-			'path'           => '^some/(event|post)/([0-9]+)/([\w]{3})$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('type', 'id', 'foo'),
-			'page_arguments' => array(
+			'path'             => '^some/(event|post)/([0-9]+)/([\w]{3})$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'type',
 				'id',
 				'foo'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'type',
+				'id',
+				'foo'
+			),
+			'query_vars'       => array(
 				'type' => 1,
 				'id'   => 2,
 				'foo'  => 3
 			),
-			'template'       => false
+			'template'         => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -228,18 +239,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello there';
 		};
 		$args     = array(
-			'path'           => '^some/(event|post)/([0-9]+)$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('type', 'id'),
-			'page_arguments' => array(
+			'path'             => '^some/(event|post)/([0-9]+)$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'type',
 				'id'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'type',
+				'id'
+			),
+			'query_vars'       => array(
 				'type' => 1,
 				'id'   => 2
 			),
-			'template'       => false
+			'template'         => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -261,19 +275,22 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		// set the filter
 		WPRouting_Route::filter( 'auth', $accessCallback );
 		$args = array(
-			'path'            => '^posts/([\w]+)/([0-9]+)$',
-			'page_callback'   => array( 'GET' => $callback ),
-			'access_arguments' => array('category', 'category-id'),
-			'page_arguments'  => array(
+			'path'             => '^posts/([\w]+)/([0-9]+)$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'category',
 				'category-id'
 			),
-			'query_vars'      => array(
+			'page_arguments'   => array(
+				'category',
+				'category-id'
+			),
+			'query_vars'       => array(
 				'category'    => 1,
 				'category-id' => 2
 			),
-			'access_callback' => array( 'GET' => $accessCallback ),
-			'template'        => false
+			'access_callback'  => array( 'GET' => $accessCallback ),
+			'template'         => false
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -359,19 +376,22 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello page';
 		};
 		$args          = array(
-			'path'           => '^posts/([\w]+)/([0-9]+)$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('category', 'category-id'),
-			'page_arguments' => array(
+			'path'             => '^posts/([\w]+)/([0-9]+)$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'category',
 				'category-id'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'category',
+				'category-id'
+			),
+			'query_vars'       => array(
 				'category'    => 1,
 				'category-id' => 2
 			),
-			'template'       => false,
-			'title_callback' => array( 'GET' => $titleCallback )
+			'template'         => false,
+			'title_callback'   => array( 'GET' => $titleCallback )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -389,19 +409,22 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello there';
 		};
 		$args     = array(
-			'path'           => '^posts/([\w]+)/([0-9]+)$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('category', 'category-id'),
-			'page_arguments' => array(
+			'path'             => '^posts/([\w]+)/([0-9]+)$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'category',
 				'category-id'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'category',
+				'category-id'
+			),
+			'query_vars'       => array(
 				'category'    => 1,
 				'category-id' => 2
 			),
-			'template'       => false,
-			'title'          => 'Page Title'
+			'template'         => false,
+			'title'            => 'Page Title'
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
@@ -417,18 +440,21 @@ class WP_Routing_RouteTest extends tad_TestCase {
 			echo 'Hello there';
 		};
 		$args     = array(
-			'path'           => '^posts/([\w]+)/([0-9]+)$',
-			'page_callback'  => array( 'GET' => $callback ),
-			'access_arguments' => array('category', 'category-id'),
-			'page_arguments' => array(
+			'path'             => '^posts/([\w]+)/([0-9]+)$',
+			'page_callback'    => array( 'GET' => $callback ),
+			'access_arguments' => array(
 				'category',
 				'category-id'
 			),
-			'query_vars'     => array(
+			'page_arguments'   => array(
+				'category',
+				'category-id'
+			),
+			'query_vars'       => array(
 				'category'    => 1,
 				'category-id' => 2
 			),
-			'template'       => array( 'category-term.php' )
+			'template'         => array( 'category-term.php' )
 		);
 		$this->router->expects( $this->once() )->method( 'add_route' )->with( $id, $args );
 		$this->sut->hook();
