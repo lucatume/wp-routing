@@ -134,6 +134,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'           => '^some/(event|post)/([0-9]+)$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('type', 'id'),
 			'page_arguments' => array(
 				'type',
 				'id'
@@ -160,6 +161,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'           => '^some/(event|post)/([0-9]+)/([\w]{3})$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('type', 'id', 'foo'),
 			'page_arguments' => array(
 				'type',
 				'id',
@@ -192,6 +194,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'           => '^some/(event|post)/([0-9]+)/([\w]{3})$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('type', 'id', 'foo'),
 			'page_arguments' => array(
 				'type',
 				'id',
@@ -227,6 +230,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'           => '^some/(event|post)/([0-9]+)$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('type', 'id'),
 			'page_arguments' => array(
 				'type',
 				'id'
@@ -259,6 +263,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args = array(
 			'path'            => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback'   => array( 'GET' => $callback ),
+			'access_arguments' => array('category', 'category-id'),
 			'page_arguments'  => array(
 				'category',
 				'category-id'
@@ -356,6 +361,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args          = array(
 			'path'           => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('category', 'category-id'),
 			'page_arguments' => array(
 				'category',
 				'category-id'
@@ -385,6 +391,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'           => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('category', 'category-id'),
 			'page_arguments' => array(
 				'category',
 				'category-id'
@@ -412,6 +419,7 @@ class WP_Routing_RouteTest extends tad_TestCase {
 		$args     = array(
 			'path'           => '^posts/([\w]+)/([0-9]+)$',
 			'page_callback'  => array( 'GET' => $callback ),
+			'access_arguments' => array('category', 'category-id'),
 			'page_arguments' => array(
 				'category',
 				'category-id'

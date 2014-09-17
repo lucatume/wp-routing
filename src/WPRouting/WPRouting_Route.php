@@ -609,6 +609,7 @@ class WPRouting_Route
 		        $this->args['page_arguments'] = array();
 	        }
 	        $this->args['page_arguments'][] = $key;
+	        $this->args['access_arguments'][] = $key;
         }
 
         // take care of initial caret and ending dollar sign
