@@ -95,7 +95,7 @@ I wand to add a `/secret-posts` page accessible to admins alone
             echo 'Secret posts';
         }))->withTitle('Secret page');
 
-I want to add PUT and POST endpoints for editors to edit posts
+I want to add PUT and POST endpoints for editors to edit posts; please note that path variables are passd in their appearance order to the page callback and access callback methods/functions.
 
     WPRouting_Route::filter('editor', function($id){
             return current_user_can('edit_posts', $id);
