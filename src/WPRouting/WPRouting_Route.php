@@ -604,6 +604,11 @@ class WPRouting_Route
                 $this->args['query_vars'] = array();
             }
             $this->args['query_vars'][$key] = count($this->args['query_vars']) + 1;
+	        // each query var is added as a page argument
+	        if (!isset($this->args['page_arguments'])) {
+		        $this->args['page_arguments'] = array();
+	        }
+	        $this->args['page_arguments'][] = $key;
         }
 
         // take care of initial caret and ending dollar sign

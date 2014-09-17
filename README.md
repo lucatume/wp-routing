@@ -97,17 +97,17 @@ I wand to add a `/secret-posts` page accessible to admins alone
 
 I want to add PUT and POST endpoints for editors to edit posts
 
-    WPRouting_Route::filter('editor', function(){
-            return current_user_can('edit_posts');
+    WPRouting_Route::filter('editor', function($id){
+            return current_user_can('edit_posts', $id);
         });
 
     WPRouting_Route::pattern('id', '\d+');
 
-    WPRouting_Route::put('posts/{id}', array('editor', function(){
+    WPRouting_Route::put('posts/{id}', array('editor', function($id){
             echo 'Doing some post updating';
         }));
 
-    WPRouting_Route::post('posts/{id}', array('editor', function(){
+    WPRouting_Route::post('posts/{id}', array('editor', function($id){
             echo 'Adding a post';
         }));
 
