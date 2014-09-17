@@ -79,6 +79,7 @@ Any filter needs to be registered using the `filter` static method.
 * `pattern`: static, sets a pattern to be used for all routes.
 
 #### Examples
+Please note that path variables are passd in their appearance order to the page, access and title  callback methods/functions.  
 I want to add a `/posts` page displaying the posts archive
 
     WPRouting_Route::get('posts', function(){
@@ -95,7 +96,7 @@ I wand to add a `/secret-posts` page accessible to admins alone
             echo 'Secret posts';
         }))->withTitle('Secret page');
 
-I want to add PUT and POST endpoints for editors to edit posts; please note that path variables are passd in their appearance order to the page callback and access callback methods/functions.
+I want to add PUT and POST endpoints for editors to edit posts
 
     WPRouting_Route::filter('editor', function($id){
             return current_user_can('edit_posts', $id);
