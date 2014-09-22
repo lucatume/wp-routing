@@ -14,6 +14,7 @@ class WPRouting_PersistableRoute extends WPRouting_Route {
 	 */
 	const OPTION_ID                     = '__wp_routing_routes_meta';
 	const ROUTE_PERSISTED_VALUES_FILTER = 'WP_Routing_PersistableRoute_persist_route';
+
 	/**
 	 * @var array An array of route arguments that are either set by internal
 	 * methods or require the use of public set methods to be set.
@@ -35,6 +36,8 @@ class WPRouting_PersistableRoute extends WPRouting_Route {
 		}
 		$this->option = $option;
 		parent::__construct( $f );
+		// by default it should be persisted
+		$this->shouldBePersisted();
 	}
 
 	protected function maybeInitStaticHelper() {

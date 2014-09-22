@@ -91,7 +91,7 @@ class WP_Routing_PersistableRouteTest extends tad_TestCase
     public function it_should_allow_setting_the_persistence_using_the_shouldBePersisted_method()
     {
         $sut = new WPRouting_PersistableRoute();
-        $this->assertFalse($sut->willBePersisted());
+        $this->assertTrue($sut->willBePersisted());
         $sut->shouldBePersisted(false);
         $this->assertFalse($sut->willBePersisted());
         $sut->shouldBePersisted();
