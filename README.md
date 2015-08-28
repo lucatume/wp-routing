@@ -1,5 +1,7 @@
 # WordPress Wrappers
 
+## Deprecated: this package is no more maintained. See [wp-routes](https://github.com/lucatume/wp-routes) for a possible alternative.
+
 A set of wrapping classes that should allow Laravel-like routing in WordPress thanks to [WP Router](https://wordpress.org/plugins/wp-router/) plugin and some packages from [Laravel](http://laravel.com/).
 
 ## Including the library in a theme or plugin
